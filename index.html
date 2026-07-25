@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Acceso a la Información | ULA Táchira</title>
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= VARIABLES Y RESET ================= */
+        :root {
+            --bg-color: #faf9f6; 
+            --text-main: #1a1a1a;
+            --text-muted: #4a4a4a;
+            --accent-color: #0b3d91; 
+            --accent-hover: #082b66;
+            --btn-color: #e6b325; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+            background-size: 24px 24px;
+            overflow-x: hidden; /* Evita scroll horizontal con las animaciones */
+        }
+
+        h1, h2, h3, h4, .editorial-font { font-family: 'Playfair Display', serif; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ================= CLASES DE ANIMACIÓN AL SCROLLEAR ================= */
+        .reveal {
+            opacity: 0;
+            transform: translateY(40px);
+            transition: all 0.8s ease-out;
+        }
+        .reveal.active {
+            opacity: 1;
+            transform: translateY(0);
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        .logo i { color: var(--accent-color); }
+
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+        
+        /* Efecto Hover Subrayado en Navbar */
+        .nav-links li a:not(.btn-nav) { position: relative; padding-bottom: 5px; }
+        .nav-links li a:not(.btn-nav)::after {
+            content: '';
+            position: absolute;
+            width: 100%;
+            height: 2px;
+            bottom: 0;
+            left: 0;
+            background-color: var(--accent-color);
+            transform: scaleX(0);
+            transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-links li a:not(.btn-nav):hover::after {
+            transform: scaleX(1);
+            transform-origin: bottom left;
+        }
+        .nav-links li a:not(.btn-nav):hover { color: var(--accent-color); transition: color 0.3s ease; }
+        
+        .btn-nav {
+            background-color: var(--btn-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #111;
+            transition: all 0.3s;
+        }
+        .btn-nav:hover { background-color: #d1a21f; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* ================= HEADER TÍTULO Y 3 ICONOS ================= */
+        .mission-section { text-align: center; padding: 80px 0 60px; background-color: var(--bg-color); }
+        
+        /* Animación Tipo Escritura (Typewriter) CORREGIDA */
+        .mission-subtitle { 
+            font-size: 1rem; 
+            text-transform: uppercase; 
+            letter-spacing: 3px; 
+            color: var(--text-muted); 
+            margin: 0 auto 10px; 
+            font-weight: 700;
+            /* Propiedades de la animación */
+            display: inline-block; /* Mantiene el texto en su propio bloque ajustado */
+            overflow: hidden;
+            white-space: nowrap;
+            border-right: 2px solid var(--accent-color);
+            width: 32ch; /* Ancho ajustado para que quepa toda la palabra */
+            animation: typing 2.5s steps(32, end), blink-caret .75s step-end infinite;
+        }
+
+        @keyframes typing { from { width: 0 } }
+        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
+
+        .mission-title { font-size: 3.5rem; margin-bottom: 50px; font-weight: 700; }
+
+        .features { display: flex; justify-content: center; gap: 60px; }
+        
+        /* Efectos Hover en los 3 Iconos */
+        .feature-item { 
+            text-align: center; 
+            max-width: 150px; 
+            transition: transform 0.3s ease;
+            cursor: pointer;
+        }
+        .feature-item i { 
+            font-size: 2.5rem; 
+            margin-bottom: 15px; 
+            color: var(--text-main); 
+            transition: all 0.3s ease;
+        }
+        .feature-item p { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s ease; }
+        
+        .feature-item:hover { transform: translateY(-10px); }
+        .feature-item:hover i { transform: scale(1.15); color: var(--accent-color); }
+        .feature-item:hover p { color: var(--accent-color); }
+
+        /* ================= IMAGEN CENTRAL CON TEXTURA ================= */
+        .hero-image-container { width: 100%; height: 500px; position: relative; overflow: hidden;}
+        .hero-image-container::after {
+            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
+            background-image: radial-gradient(rgba(0,0,0,0.2) 1px, transparent 1px);
+            background-size: 4px 4px; pointer-events: none; 
+        }
+        .hero-image-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
+
+        /* ================= GET INVOLVED (PARTICIPA) ================= */
+        .get-involved { text-align: center; padding: 80px 20px; background-color: #ffffff; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
+        .get-involved h2 { font-size: 2.5rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
+        .get-involved p { max-width: 600px; margin: 0 auto 40px; color: var(--text-muted); font-size: 1.1rem; font-style: italic; font-family: 'Playfair Display', serif;}
+        
+        .btn-primary {
+            display: inline-block;
+            background-color: var(--btn-color);
+            color: #111;
+            padding: 15px 35px;
+            border-radius: 30px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.9rem;
+            transition: all 0.3s ease;
+        }
+        .btn-primary:hover { background-color: #d1a21f; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
+
+        /* ================= ARTÍCULOS SUGERIDOS ================= */
+        .articles-section { padding: 80px 0; background-color: var(--bg-color); }
+        .section-header { text-align: center; margin-bottom: 50px; }
+        .section-header h2 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
+
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 0 20px; }
+
+        /* Tarjeta y Efecto Zoom en Imagen */
+        .article-card { display: flex; flex-direction: column; position: relative; transition: transform 0.4s ease; }
+        .article-card:hover { transform: translateY(-8px); }
+        
+        .img-wrapper {
+            width: 100%; height: 250px; border-radius: 20px;
+            overflow: hidden; /* Esto mantiene la imagen dentro de la curva al hacer zoom */
+            margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
+        }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        
+        .article-card:hover .img-wrapper img { transform: scale(1.1); }
+
+        .article-date { font-size: 0.8rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;}
+        .article-title { font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3; }
+        .article-excerpt { color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
+        
+        .read-more { align-self: flex-start; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; position: static; }
+        .read-more::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+        .read-more::after { content: '→'; margin-left: 5px; transition: margin-left 0.3s ease; }
+        .article-card:hover .read-more::after { margin-left: 10px; color: var(--accent-color); }
+        .article-card:hover .read-more { color: var(--accent-color); }
+
+        /* ================= FOOTER ================= */
+        footer { background-color: #111; color: #fff; text-align: center; padding: 30px; font-size: 0.9rem; z-index: 2; position: relative;}
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-scale-balanced"></i>
+                INFO-DERECHOS ULA
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">El Proyecto</a></li>
+                <li><a href="#">Artículos</a></li>
+                <li><a href="#" class="btn-nav">Participa</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- TÍTULO Y 3 ICONOS -->
+    <section class="mission-section">
+        <div class="container">
+            <p class="mission-subtitle">Nuestra Investigación</p>
+            <h1 class="mission-title reveal">El Derecho a Saber</h1>
+            
+            <div class="features reveal">
+                <div class="feature-item">
+                    <i class="fa-solid fa-magnifying-glass"></i>
+                    <p>Transparencia Activa</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-file-contract"></i>
+                    <p>Leyes y Normativas</p>
+                </div>
+                <div class="feature-item">
+                    <i class="fa-solid fa-users"></i>
+                    <p>Poder Estudiantil</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- IMAGEN CENTRAL CON TEXTURA -->
+    <section class="hero-image-container reveal">
+        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Estudiantes en el campus universitario">
+    </section>
+
+    <!-- GET INVOLVED (PARTICIPA) -->
+    <section class="get-involved reveal">
+        <div class="container">
+            <h2>Involúcrate</h2>
+            <p>"El acceso a la información pública no es un privilegio, es un derecho humano fundamental que garantiza la equidad dentro de nuestro recinto universitario en la ULA San Cristóbal."</p>
+            <a href="participa.html" class="btn-primary">Conoce tus Derechos</a>
+        </div>
+    </section>
+
+    <!-- ARTÍCULOS SUGERIDOS -->
+    <section class="articles-section reveal">
+        <div class="container">
+            <div class="section-header">
+                <h2>Artículos y Recursos</h2>
+            </div>
+            
+            <div class="articles-grid">
+                <!-- Artículo 1 -->
+                <article class="article-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Documentos legales">
+                    </div>
+                    <div class="article-date">25 Julio, 2026</div>
+                    <h3 class="article-title">¿Cómo solicitar información administrativa en la ULA?</h3>
+                    <p class="article-excerpt">Una guía paso a paso sobre los canales regulares y legales para que los estudiantes de la ULA Táchira puedan acceder a resoluciones del consejo de núcleo.</p>
+                    <a href="articulo-01.html" class="read-more">Ver más</a>
+                </article>
+
+                <!-- Artículo 2 -->
+                <article class="article-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Estudiantes debatiendo">
+                    </div>
+                    <div class="article-date">18 Julio, 2026</div>
+                    <h3 class="article-title">El impacto de la opacidad en el desarrollo estudiantil</h3>
+                    <p class="article-excerpt">Análisis de los resultados preliminares de nuestra tesis, detallando cómo la falta de información oportuna afecta el rendimiento y la planificación académica.</p>
+                    <a href="articulo-02.html" class="read-more">Ver más</a>
+                </article>
+
+                <!-- Artículo 3 -->
+                <article class="article-card">
+                    <div class="img-wrapper">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Investigación en biblioteca">
+                    </div>
+                    <div class="article-date">10 Julio, 2026</div>
+                    <h3 class="article-title">Marco legal venezolano: Tu derecho a saber</h3>
+                    <p class="article-excerpt">Un resumen claro y accesible sobre las leyes nacionales que respaldan la solicitud de información pública dentro de las instituciones autónomas.</p>
+                    <a href="articulo-03.html" class="read-more">Ver más</a>
+                </article>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Proyecto de Tesis | Universidad de Los Andes, San Cristóbal, Táchira.</p>
+    </footer>
+
+    <!-- SCRIPT PARA ANIMACIONES AL HACER SCROLL -->
+    <script>
+        document.addEventListener("DOMContentLoaded", function() {
+            // Utilizamos IntersectionObserver para detectar cuando un elemento entra en la pantalla
+            const observer = new IntersectionObserver((entries) => {
+                entries.forEach((entry) => {
+                    if (entry.isIntersecting) {
+                        entry.target.classList.add('active'); // Añade la clase que activa la animación
+                    }
+                });
+            }, { threshold: 0.15 }); // 0.15 significa que la animación inicia cuando el 15% del elemento es visible
+            
+            // Selecciona todos los elementos con la clase "reveal" y los observa
+            document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+        });
+    </script>
+
+</body>
+</html>
