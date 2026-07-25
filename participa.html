@@ -1,0 +1,406 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Involúcrate | Acceso a la Información ULA</title>
+    <!-- Fuentes de Google -->
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= VARIABLES Y RESET ================= */
+        :root {
+            --bg-color: #faf9f6; 
+            --text-main: #1a1a1a;
+            --text-muted: #4a4a4a;
+            --accent-color: #0b3d91; 
+            --accent-hover: #082b66;
+            --btn-color: #e6b325; 
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.6;
+            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+            background-size: 24px 24px;
+            overflow-x: hidden;
+        }
+
+        h1, h2, h3, h4, .editorial-font { font-family: 'Playfair Display', serif; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 20px 0;
+            border-bottom: 1px solid rgba(0,0,0,0.1);
+        }
+        
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        .logo i { color: var(--accent-color); }
+
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+        
+        .nav-links li a:not(.btn-nav) { position: relative; padding-bottom: 5px; }
+        .nav-links li a:not(.btn-nav)::after {
+            content: ''; position: absolute; width: 100%; height: 2px; bottom: 0; left: 0;
+            background-color: var(--accent-color); transform: scaleX(0); transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-links li a:not(.btn-nav):hover::after { transform: scaleX(1); transform-origin: bottom left; }
+        .nav-links li a:not(.btn-nav):hover { color: var(--accent-color); transition: color 0.3s ease; }
+        
+        .btn-nav {
+            background-color: var(--btn-color);
+            padding: 10px 20px;
+            border-radius: 25px;
+            color: #111;
+            transition: all 0.3s;
+        }
+        .btn-nav:hover { background-color: #d1a21f; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* ================= HERO INVOLÚCRATE ================= */
+        .participate-hero { text-align: center; padding: 80px 0 40px; }
+        .participate-hero h1 { font-size: 3.5rem; margin-bottom: 20px; font-weight: 700; }
+        .participate-hero p { max-width: 700px; margin: 0 auto; color: var(--text-muted); font-size: 1.15rem; }
+
+        /* ================= GALERÍA TIPO TARJETAS EN CURVA ================= */
+        .curved-cards-section { padding: 40px 0 60px; overflow: hidden; }
+        .cards-scroll-container {
+            display: flex;
+            gap: 20px;
+            justify-content: center;
+            overflow-x: auto;
+            padding: 20px 0;
+            scrollbar-width: none;
+        }
+        .cards-scroll-container::-webkit-scrollbar { display: none; }
+
+        .profile-card {
+            min-width: 180px;
+            height: 280px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+            transition: transform 0.4s ease;
+            flex-shrink: 0;
+        }
+        .profile-card img { width: 100%; height: 100%; object-fit: cover; }
+        .profile-card:hover { transform: translateY(-10px) scale(1.03); }
+        
+        .profile-card:nth-child(1) { transform: perspective(500px) rotateY(10deg); }
+        .profile-card:nth-child(2) { transform: perspective(500px) rotateY(5deg); }
+        .profile-card:nth-child(4) { transform: perspective(500px) rotateY(-5deg); }
+        .profile-card:nth-child(5) { transform: perspective(500px) rotateY(-10deg); }
+
+        /* ================= BLOQUES DE TEXTO EXPLICATIVO (RELLENO INTERMEDIO) ================= */
+        .content-block-section { padding: 60px 0; background-color: #fff; border-top: 1px solid #eee; border-bottom: 1px solid #eee; }
+        .content-block-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 50px; align-items: center; }
+        .content-text h2 { font-size: 2.2rem; margin-bottom: 20px; line-height: 1.3; }
+        .content-text p { color: var(--text-muted); margin-bottom: 20px; font-size: 1.05rem; text-align: justify; }
+        .content-editorial-quote {
+            border-left: 4px solid var(--accent-color);
+            padding-left: 20px;
+            font-style: italic;
+            font-family: 'Playfair Display', serif;
+            color: var(--text-main);
+            font-size: 1.1rem;
+            margin-top: 20px;
+        }
+        .content-image-wrapper { width: 100%; height: 380px; border-radius: 20px; overflow: hidden; box-shadow: 0 10px 25px rgba(0,0,0,0.08); }
+        .content-image-wrapper img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ================= CUADRÍCULAS BENTO (MOSAICO) ================= */
+        .bento-section { padding: 80px 0; }
+        .bento-header { text-align: center; margin-bottom: 60px; }
+        .bento-header h2 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; margin-bottom: 15px; }
+        .bento-header p { color: var(--text-muted); font-size: 1.1rem; max-width: 600px; margin: 0 auto; }
+
+        .bento-grid {
+            display: grid;
+            grid-template-columns: repeat(12, 1fr);
+            gap: 25px;
+        }
+
+        .bento-item {
+            border-radius: 25px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 10px 25px rgba(0,0,0,0.05);
+            transition: transform 0.4s ease;
+        }
+        .bento-item:hover { transform: translateY(-5px); }
+
+        .bento-large-left { grid-column: span 7; min-height: 380px; }
+        .bento-small-right { grid-column: span 5; min-height: 380px; background-color: #f0ebe1; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        
+        .bento-small-left { grid-column: span 5; min-height: 380px; background-color: #dfd5c3; padding: 40px; display: flex; flex-direction: column; justify-content: center; }
+        .bento-large-right { grid-column: span 7; min-height: 380px; background-color: #0b3d91; padding: 40px; display: flex; align-items: center; border-radius: 25px; }
+
+        .bento-item img { width: 100%; height: 100%; object-fit: cover; position: absolute; top:0; left:0; }
+        
+        .bento-content-overlay {
+            position: absolute; bottom: 0; left: 0; right: 0;
+            padding: 30px;
+            background: linear-gradient(to top, rgba(0,0,0,0.8), transparent);
+            color: #fff;
+        }
+        .bento-content-overlay h3 { font-size: 1.8rem; margin-bottom: 8px; font-family: 'Playfair Display', serif; }
+        .bento-content-overlay p { font-size: 0.95rem; opacity: 0.9; }
+
+        .bento-text h3 { font-size: 2rem; margin-bottom: 15px; font-family: 'Playfair Display', serif; color: var(--text-main); }
+        .bento-text p { color: var(--text-muted); font-size: 1.05rem; }
+
+        .green-card-content { display: flex; align-items: center; justify-content: space-between; width: 100%; gap: 20px; }
+        .green-card-text { color: #fff; flex: 1; }
+        .green-card-text h3 { font-size: 2rem; margin-bottom: 10px; font-family: 'Playfair Display', serif; color: #fff; }
+        .green-card-text p { color: #e2e8f0; font-size: 1rem; }
+        .green-card-image { width: 200px; height: 240px; border-radius: 15px; overflow: hidden; flex-shrink: 0; }
+        .green-card-image img { width: 100%; height: 100%; object-fit: cover; }
+
+        /* ================= SECCIÓN DE CONTACTO Y FORMULARIO ================= */
+        .contact-section { padding: 90px 0; background-color: #fff; border-top: 1px solid #eee; }
+        .contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 60px; align-items: flex-start; }
+        
+        .contact-info h2 { font-size: 2.5rem; margin-bottom: 20px; }
+        .contact-info p { color: var(--text-muted); margin-bottom: 30px; font-size: 1.05rem; }
+        
+        .contact-details-list { display: flex; flex-direction: column; gap: 20px; }
+        .contact-item { display: flex; align-items: flex-start; gap: 15px; }
+        .contact-item i { font-size: 1.3rem; color: var(--accent-color); margin-top: 3px; }
+        .contact-item div h4 { font-size: 1.1rem; font-family: 'Lato', sans-serif; font-weight: 700; margin-bottom: 2px; }
+        .contact-item div p { color: var(--text-muted); font-size: 0.95rem; margin: 0; }
+
+        /* Estilos del Formulario */
+        .contact-form-container {
+            background-color: var(--bg-color);
+            padding: 40px;
+            border-radius: 20px;
+            border: 1px solid rgba(0,0,0,0.08);
+            box-shadow: 0 10px 30px rgba(0,0,0,0.03);
+        }
+        .contact-form-container h3 { font-size: 1.8rem; margin-bottom: 25px; }
+        
+        .form-group { margin-bottom: 20px; }
+        .form-group label { display: block; font-size: 0.85rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 8px; color: var(--text-muted); }
+        .form-control {
+            width: 100%;
+            padding: 12px 15px;
+            border: 1px solid #ccc;
+            border-radius: 10px;
+            background-color: #fff;
+            font-family: 'Lato', sans-serif;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        .form-control:focus { outline: none; border-color: var(--accent-color); }
+        textarea.form-control { resize: vertical; min-height: 120px; }
+
+        .btn-submit {
+            background-color: var(--btn-color);
+            color: #111;
+            width: 100%;
+            padding: 14px;
+            border: none;
+            border-radius: 10px;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-size: 0.95rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+        .btn-submit:hover { background-color: #d1a21f; transform: translateY(-2px); box-shadow: 0 6px 15px rgba(0,0,0,0.1); }
+
+        /* ================= FOOTER ================= */
+        footer { background-color: #111; color: #fff; text-align: center; padding: 30px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-scale-balanced"></i>
+                INFO-DERECHOS ULA
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">El Proyecto</a></li>
+                <li><a href="articulo-01.html">Artículos</a></li>
+                <li><a href="participa.html" class="btn-nav" style="background-color: var(--accent-color); color: #fff;">Participa</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- HERO INVOLÚCRATE -->
+    <section class="participate-hero container">
+        <h1>Súmate al Cambio Universitario</h1>
+        <p>El acceso a la información es una construcción colectiva. Conoce las vías de participación activa para estudiantes, investigadores y ciudadanos en la ULA San Cristóbal.</p>
+    </section>
+
+    <!-- GALERÍA DINÁMICA TIPO CURVA -->
+    <section class="curved-cards-section">
+        <div class="cards-scroll-container">
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1534528741775-53994a69daeb?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Estudiante ULA">
+            </div>
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Investigador">
+            </div>
+            <div class="profile-card" style="transform: scale(1.05); z-index: 2;">
+                <img src="https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Defensor de derechos">
+            </div>
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1500648767791-00dcc994a43e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Profesor ULA">
+            </div>
+            <div class="profile-card">
+                <img src="https://images.unsplash.com/photo-1580489944761-15a19d654956?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Activista estudiantil">
+            </div>
+        </div>
+    </section>
+
+    <!-- BLOQUE DE TEXTO EXPLICATIVO (RELLENO INTERMEDIO) -->
+    <section class="content-block-section">
+        <div class="container">
+            <div class="content-block-grid">
+                <div class="content-text">
+                    <h2>¿Por qué es vital la veeduría y el acceso a datos en la universidad?</h2>
+                    <p>La transparencia institucional no solo previene irregularidades administrativas, sino que empodera directamente a la comunidad académica. En la Universidad de Los Andes, el derecho a la información constituye el núcleo de la autonomía y la contraloría social.</p>
+                    <p>A través de esta iniciativa de investigación, buscamos tender puentes firmes entre los órganos directivos del Núcleo Táchira y el estudiantado, facilitando metodologías claras de solicitud de documentos y auditoría pacífica.</p>
+                    <div class="content-editorial-quote">
+                        "Un campus universitario informado es sinónimo de una democracia institucional sólida y participativa."
+                    </div>
+                </div>
+                <div class="content-image-wrapper">
+                    <img src="https://images.unsplash.com/photo-1523240795612-9a054b0db644?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Estudiantes discutiendo propuestas universitarias">
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN BENTO / MOSAICO DINÁMICO -->
+    <section class="bento-section">
+        <div class="container">
+            <div class="bento-header">
+                <h2>Pilares de Participación</h2>
+                <p>Herramientas prácticas para ejercer veeduría ciudadana y exigir transparencia en el núcleo Táchira.</p>
+            </div>
+
+            <div class="bento-grid">
+                <!-- Fila 1 -->
+                <div class="bento-item bento-large-left">
+                    <img src="https://images.unsplash.com/photo-1531482615713-2afd69097998?ixlib=rb-4.0.3&auto=format&fit=crop&w=800&q=80" alt="Veeduría estudiantil">
+                    <div class="bento-content-overlay">
+                        <h3>Veeduría Activa</h3>
+                        <p>Supervisión y control ciudadano sobre los procesos administrativos del núcleo.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-small-right">
+                    <div class="bento-text">
+                        <h3>Solicitudes Legales</h3>
+                        <p>Aprende a redactar y consignar peticiones de información amparadas por la legislación venezolana actual.</p>
+                    </div>
+                </div>
+
+                <!-- Fila 2 -->
+                <div class="bento-item bento-small-left">
+                    <div class="bento-text">
+                        <h3>Comunidad Informada</h3>
+                        <p>Difunde los hallazgos de nuestra investigación y fortalece el tejido institucional universitario.</p>
+                    </div>
+                </div>
+
+                <div class="bento-item bento-large-right">
+                    <div class="green-card-content">
+                        <div class="green-card-text">
+                            <h3>Defensa de Derechos</h3>
+                            <p>Tu voz cuenta. Únete a la red de promotores de transparencia en San Cristóbal.</p>
+                        </div>
+                        <div class="green-card-image">
+                            <img src="https://images.unsplash.com/photo-1573497019940-1c28c88b4f3e?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Defensa institucional">
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECCIÓN DE CONTACTO Y FORMULARIO -->
+    <section class="contact-section">
+        <div class="container">
+            <div class="contact-grid">
+                <div class="contact-info">
+                    <h2>Datos de Contacto</h2>
+                    <p>¿Tienes dudas sobre cómo ejercer tu derecho a la información o deseas aportar documentos e ideas a nuestra investigación de tesis? Comunícate directamente con nuestro equipo de trabajo.</p>
+                    
+                    <div class="contact-details-list">
+                        <div class="contact-item">
+                            <i class="fa-solid fa-location-dot"></i>
+                            <div>
+                                <h4>Ubicación</h4>
+                                <p>Universidad de Los Andes, Núcleo Táchira (Dr. Pedro Rincón Gutiérrez), San Cristóbal, Estado Táchira.</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-envelope"></i>
+                            <div>
+                                <h4>Correo Electrónico</h4>
+                                <p>investigacion.acceso@ula.ve / info.derechossancristobal@gmail.com</p>
+                            </div>
+                        </div>
+                        <div class="contact-item">
+                            <i class="fa-solid fa-clock"></i>
+                            <div>
+                                <h4>Horario de Atención</h4>
+                                <p>Lunes a Viernes: 8:00 AM – 2:00 PM</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="contact-form-container">
+                    <h3>Envíanos tu Mensaje</h3>
+                    <form action="#" method="POST">
+                        <div class="form-group">
+                            <label for="nombre">Nombre y Apellido</label>
+                            <input type="text" id="nombre" class="form-control" placeholder="Ej. María Pérez" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="email">Correo Electrónico</label>
+                            <input type="email" id="email" class="form-control" placeholder="correo@example.com" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="asunto">Asunto o Motivo</label>
+                            <input type="text" id="asunto" class="form-control" placeholder="Consulta sobre solicitud de información" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="mensaje">Mensaje</label>
+                            <textarea id="mensaje" class="form-control" placeholder="Escribe tu mensaje o propuesta aquí..." required></textarea>
+                        </div>
+                        <button type="submit" class="btn-submit">Enviar Mensaje</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Proyecto de Tesis | Universidad de Los Andes, San Cristóbal, Táchira.</p>
+    </footer>
+
+</body>
+</html>
