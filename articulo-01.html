@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <!-- [TÍTULO DE LA PESTAÑA DEL NAVEGADOR] -->
+    <title>Título del Artículo | Acceso a la Información ULA</title>
+    
+    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= VARIABLES Y RESET ================= */
+        :root {
+            --bg-color: #faf9f6;
+            --text-main: #1a1a1a;
+            --text-muted: #4a4a4a;
+            --accent-color: #0b3d91;
+            --btn-color: #e6b325;
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Lato', sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-main);
+            line-height: 1.8;
+            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
+            background-size: 24px 24px;
+        }
+
+        h1, h2, h3, .editorial-font { font-family: 'Playfair Display', serif; }
+        a { text-decoration: none; color: inherit; }
+        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+        
+        /* ================= NAVBAR (Con animación) ================= */
+        nav { display: flex; justify-content: space-between; align-items: center; padding: 20px 0; border-bottom: 1px solid rgba(0,0,0,0.1); margin-bottom: 50px;}
+        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
+        .logo i { color: var(--accent-color); }
+        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
+        
+        /* Efecto Hover Subrayado en Navbar */
+        .nav-links li a:not(.btn-nav) { position: relative; padding-bottom: 5px; }
+        .nav-links li a:not(.btn-nav)::after {
+            content: ''; position: absolute; width: 100%; height: 2px; bottom: 0; left: 0;
+            background-color: var(--accent-color); transform: scaleX(0); transform-origin: bottom right;
+            transition: transform 0.3s ease-out;
+        }
+        .nav-links li a:not(.btn-nav):hover::after { transform: scaleX(1); transform-origin: bottom left; }
+        .nav-links li a:not(.btn-nav):hover { color: var(--accent-color); transition: color 0.3s ease; }
+
+        .btn-nav { background-color: var(--btn-color); padding: 10px 20px; border-radius: 25px; color: #111; transition: all 0.3s; }
+        .btn-nav:hover { background-color: #d1a21f; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+
+        /* ================= ESTILOS DEL ARTÍCULO ================= */
+        .article-container { max-width: 800px; margin: 0 auto 80px; padding: 0 20px; }
+        .article-header { text-align: center; margin-bottom: 40px; }
+        .article-title { font-size: 3rem; margin-bottom: 20px; line-height: 1.2; color: var(--text-main); }
+        
+        /* Metadatos (Ubicación y Fecha) */
+        .article-meta {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            gap: 15px;
+            font-size: 0.9rem;
+            color: var(--text-muted);
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            font-weight: 700;
+        }
+        .meta-divider { color: var(--accent-color); }
+
+        /* Contenido del texto */
+        .article-content p { margin-bottom: 25px; font-size: 1.15rem; color: #333; text-align: justify; }
+        .article-content > p:first-of-type::first-letter {
+            font-size: 3rem; font-family: 'Playfair Display', serif; font-weight: bold;
+            color: var(--accent-color); float: left; line-height: 1; margin-right: 8px; margin-top: 5px;
+        }
+        .article-main-image { width: 100%; height: auto; border-radius: 15px; margin: 30px 0; box-shadow: 0 10px 20px rgba(0,0,0,0.08); }
+
+        /* Galería de 3 imágenes */
+        .image-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 15px; margin: 40px 0; }
+        .image-grid img { width: 100%; height: 200px; object-fit: cover; border-radius: 10px; box-shadow: 0 4px 10px rgba(0,0,0,0.05); }
+
+        /* Caja del Autor al final */
+        .author-box {
+            display: flex; align-items: center; gap: 20px; padding: 30px; background-color: #fff;
+            border-radius: 15px; margin-top: 60px; border-left: 5px solid var(--accent-color);
+            box-shadow: 0 4px 15px rgba(0,0,0,0.03);
+        }
+        .author-box i { font-size: 3.5rem; color: #ccc; }
+        .author-info h4 { font-family: 'Lato', sans-serif; font-size: 1.3rem; margin-bottom: 2px; }
+        
+        /* Detalles estructurados del autor */
+        .author-details {
+            font-size: 0.85rem;
+            color: var(--accent-color);
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 8px;
+        }
+        .author-info p.bio { font-size: 0.95rem; color: var(--text-muted); margin: 0; line-height: 1.5; }
+
+        /* ================= ARTÍCULOS RELACIONADOS ================= */
+        .articles-section { padding: 60px 0 80px; background-color: var(--bg-color); border-top: 1px solid rgba(0,0,0,0.05); }
+        .section-header { text-align: center; margin-bottom: 40px; }
+        .section-header h2 { font-size: 2rem; text-transform: uppercase; letter-spacing: 2px; }
+        .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 0 20px; max-width: 1200px; margin: 0 auto; }
+
+        /* Tarjetas de artículos relacionados (Con efectos hover iguales al index) */
+        .article-card { display: flex; flex-direction: column; position: relative; transition: transform 0.4s ease; }
+        .article-card:hover { transform: translateY(-8px); }
+        .img-wrapper { width: 100%; height: 200px; border-radius: 20px; overflow: hidden; margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05); }
+        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
+        .article-card:hover .img-wrapper img { transform: scale(1.1); }
+        .article-title-related { font-size: 1.3rem; margin-bottom: 10px; line-height: 1.3; font-family: 'Playfair Display', serif;}
+        
+        .read-more { align-self: flex-start; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; position: static; }
+        .read-more::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
+        .read-more::after { content: '→'; margin-left: 5px; transition: margin-left 0.3s ease; }
+        .article-card:hover .read-more::after { margin-left: 10px; color: var(--accent-color); }
+        .article-card:hover .read-more { color: var(--accent-color); }
+
+        footer { background-color: #111; color: #fff; text-align: center; padding: 30px; font-size: 0.9rem; }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="container">
+        <nav>
+            <div class="logo"><i class="fa-solid fa-scale-balanced"></i> INFO-DERECHOS ULA</div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">El Proyecto</a></li>
+                <li><a href="#">Artículos</a></li>
+                <li><a href="#" class="btn-nav">Participa</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <!-- CONTENEDOR PRINCIPAL DEL ARTÍCULO -->
+    <article class="article-container">
+        
+        <!-- CABECERA DEL ARTÍCULO -->
+        <header class="article-header">
+            <!-- [INSERTE AQUÍ EL TÍTULO DEL ARTÍCULO] -->
+            <h1 class="article-title">La importancia de los datos abiertos en el Consejo de Núcleo</h1>
+            
+            <div class="article-meta">
+                <!-- [INSERTE AQUÍ LA UBICACIÓN] -->
+                <span class="location">San Cristóbal, Estado Táchira</span>
+                <span class="meta-divider">|</span>
+                <!-- [INSERTE AQUÍ LA FECHA DEL ARTÍCULO] -->
+                <span class="date">25 Julio, 2026</span>
+            </div>
+        </header>
+
+        <div class="article-content">
+            
+            <!-- [INSERTE AQUÍ EL PRIMER PÁRRAFO] -->
+            <p>El acceso a la información pública no es solo una teoría legal, es una herramienta práctica que los estudiantes pueden utilizar para comprender las decisiones que afectan su vida universitaria. En la ULA, específicamente en el núcleo San Cristóbal, entender cómo se distribuyen los recursos y cómo se toman las decisiones académicas es el primer paso hacia una verdadera representación estudiantil.</p>
+
+            <!-- [INSERTE AQUÍ LA IMAGEN PRINCIPAL DEL ARTÍCULO] -->
+            <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80" alt="Descripción de la imagen" class="article-main-image">
+
+            <!-- [INSERTE AQUÍ LOS PÁRRAFOS RESTANTES] -->
+            <p>Cuando los datos son cerrados u opacos, se genera un ambiente de incertidumbre. Los procesos administrativos, como la inscripción, la asignación de becas o la planificación de horarios, deben ser del dominio público de la comunidad universitaria. Esto permite no solo auditar la gestión, sino proponer mejoras desde el sector estudiantil basadas en evidencias y no en suposiciones.</p>
+            
+            <p>La Ley de Transparencia y Acceso a la Información de Interés Público establece directrices claras sobre qué información debe estar disponible. Como futuros profesionales, exigir el cumplimiento de estas normativas en nuestra casa de estudios es un ejercicio de ciudadanía.</p>
+
+            <!-- [INSERTE AQUÍ LAS 3 IMÁGENES EN CUADRÍCULA] -->
+            <div class="image-grid">
+                <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Estudiantes 1">
+                <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Biblioteca">
+                <img src="https://images.unsplash.com/photo-1517048676732-d65bc937f952?ixlib=rb-4.0.3&auto=format&fit=crop&w=400&q=80" alt="Reunión">
+            </div>
+
+            <!-- [PUEDES SEGUIR AÑADIENDO PÁRRAFOS AQUÍ] -->
+            <p>Finalmente, documentar y sistematizar los procesos de solicitud de información formará parte vital de los resultados de esta investigación, dejando un precedente y una guía para futuras generaciones de ulandinos.</p>
+
+        </div>
+
+        <!-- CAJA DEL AUTOR AL FINAL -->
+        <div class="author-box">
+            <i class="fa-solid fa-circle-user"></i>
+            <div class="author-info">
+                <!-- [INSERTE AQUÍ: NOMBRE APELLIDO] -->
+                <h4>Tu Nombre Apellido</h4>
+                
+                <!-- [INSERTE AQUÍ: CARGO | FECHA] -->
+                <div class="author-details">
+                    Investigador Principal | 25 Julio, 2026
+                </div>
+                
+                <!-- [INSERTE AQUÍ: BREVE BIO O DESCRIPCIÓN] -->
+                <p class="bio">Tesista de la Universidad de Los Andes (ULA). Apasionado por la transparencia administrativa y los derechos estudiantiles.</p>
+            </div>
+        </div>
+    </article>
+
+    <!-- ARTÍCULOS RELACIONADOS -->
+    <section class="articles-section">
+        <div class="section-header">
+            <h2>Artículos Relacionados</h2>
+        </div>
+        
+        <div class="articles-grid">
+            <!-- Artículo Relacionado 1 -->
+            <article class="article-card">
+                <div class="img-wrapper">
+                    <!-- [INSERTE IMAGEN RELACIONADA] -->
+                    <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Debate">
+                </div>
+                <!-- [INSERTE TÍTULO Y LINK] -->
+                <h3 class="article-title-related">El impacto de la opacidad en el desarrollo estudiantil</h3>
+                <a href="articulo-02.html" class="read-more">Ver más</a>
+            </article>
+
+            <!-- Artículo Relacionado 2 -->
+            <article class="article-card">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Leyes">
+                </div>
+                <h3 class="article-title-related">Marco legal venezolano: Tu derecho a saber</h3>
+                <a href="articulo-03.html" class="read-more">Ver más</a>
+            </article>
+            
+            <!-- Artículo Relacionado 3 -->
+            <article class="article-card">
+                <div class="img-wrapper">
+                    <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Documentos">
+                </div>
+                <h3 class="article-title-related">¿Cómo solicitar información administrativa?</h3>
+                <a href="articulo-01.html" class="read-more">Ver más</a>
+            </article>
+        </div>
+    </section>
+
+    <!-- FOOTER -->
+    <footer>
+        <p>&copy; 2026 Proyecto de Tesis | Universidad de Los Andes, San Cristóbal, Táchira.</p>
+    </footer>
+
+</body>
+</html>
