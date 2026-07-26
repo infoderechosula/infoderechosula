@@ -1,0 +1,455 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>El Derecho a Saber | ULA Táchira</title>
+    <!-- Fuentes de Google: Plus Jakarta Sans para un toque muy moderno y limpio -->
+    <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <!-- Iconos de FontAwesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        /* ================= VARIABLES Y RESET ================= */
+        :root {
+            /* Paleta estricta Azul y Blanco */
+            --ula-primary: #003876; /* Azul ULA profundo */
+            --ula-secondary: #0056b3; /* Azul brillante para acentos/hover */
+            --ula-dark: #001a38; /* Azul casi negro para textos y fondos oscuros */
+            --ula-light: #e6f0fa; /* Azul muy claro para fondos de tarjetas/etiquetas */
+            
+            --white: #ffffff;
+            --bg-body: #f8fbff; /* Blanco con un levísimo toque de azul */
+            
+            --text-main: #0a192f;
+            --text-muted: #4a5d78;
+            
+            --radius-lg: 24px;
+            --radius-md: 16px;
+            --radius-sm: 8px;
+            --shadow-soft: 0 12px 40px rgba(0, 56, 118, 0.08);
+            --shadow-hover: 0 20px 40px rgba(0, 56, 118, 0.15);
+        }
+
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+
+        body {
+            font-family: 'Plus Jakarta Sans', sans-serif;
+            background-color: var(--bg-body);
+            color: var(--text-main);
+            line-height: 1.6;
+            overflow-x: hidden;
+        }
+
+        a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
+        .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
+        
+        /* Etiquetas (Badges) estilo moderno */
+        .badge {
+            display: inline-block;
+            padding: 6px 14px;
+            background-color: var(--ula-light);
+            color: var(--ula-primary);
+            border-radius: 50px;
+            font-size: 0.85rem;
+            font-weight: 700;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            margin-bottom: 16px;
+        }
+
+        /* ================= NAVBAR ================= */
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 24px 0;
+            background-color: transparent;
+        }
+        
+        .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; color: var(--ula-primary); }
+        .logo i { font-size: 1.8rem; }
+
+        .nav-links { display: flex; gap: 32px; align-items: center; list-style: none; font-weight: 600; font-size: 0.95rem; }
+        .nav-links li a:hover { color: var(--ula-secondary); }
+        
+        .btn-primary {
+            background-color: var(--ula-primary);
+            color: var(--white);
+            padding: 12px 28px;
+            border-radius: 50px;
+            font-weight: 600;
+            display: inline-flex;
+            align-items: center;
+            gap: 10px;
+            box-shadow: 0 4px 15px rgba(0, 56, 118, 0.2);
+        }
+        .btn-primary:hover { background-color: var(--ula-secondary); transform: translateY(-2px); color: var(--white); }
+        
+        .btn-outline {
+            border: 2px solid var(--ula-primary);
+            color: var(--ula-primary);
+            padding: 10px 26px;
+            border-radius: 50px;
+            font-weight: 600;
+        }
+        .btn-outline:hover { background-color: var(--ula-light); }
+
+        /* ================= HERO SECTION ================= */
+        .hero { padding: 80px 0 100px; }
+        .hero-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 60px; align-items: center; }
+        
+        .hero-content h1 {
+            font-size: 4rem;
+            font-weight: 800;
+            line-height: 1.1;
+            margin-bottom: 24px;
+            color: var(--ula-dark);
+        }
+        .hero-content h1 span { color: var(--ula-primary); }
+        .hero-content p {
+            font-size: 1.2rem;
+            color: var(--text-muted);
+            margin-bottom: 40px;
+            max-width: 90%;
+            font-style: italic;
+        }
+        .hero-buttons { display: flex; gap: 16px; }
+
+        .hero-image { position: relative; border-radius: var(--radius-lg); overflow: hidden; box-shadow: var(--shadow-soft); }
+        .hero-image img { width: 100%; height: auto; display: block; }
+        .floating-card {
+            position: absolute;
+            bottom: -20px;
+            left: -30px;
+            background: var(--white);
+            padding: 24px;
+            border-radius: var(--radius-md);
+            box-shadow: var(--shadow-hover);
+            display: flex;
+            align-items: center;
+            gap: 16px;
+        }
+        .floating-card .icon-box { background: var(--ula-light); color: var(--ula-primary); width: 50px; height: 50px; border-radius: 50%; display: flex; justify-content: center; align-items: center; font-size: 1.5rem; }
+
+        /* ================= CARDS SECTION (SOLUTIONS) ================= */
+        .features-section { padding: 80px 0; background-color: var(--white); }
+        .section-header { text-align: center; margin-bottom: 60px; }
+        .section-header h2 { font-size: 2.5rem; font-weight: 800; color: var(--ula-dark); margin-bottom: 16px; }
+        .section-header p { font-size: 1.1rem; color: var(--text-muted); max-width: 600px; margin: 0 auto; }
+
+        .features-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 24px; }
+        
+        .feature-card {
+            background-color: var(--bg-body);
+            border-radius: var(--radius-md);
+            padding: 32px 24px;
+            transition: all 0.3s ease;
+            border: 1px solid rgba(0, 56, 118, 0.05);
+        }
+        .feature-card:hover { transform: translateY(-10px); box-shadow: var(--shadow-soft); background-color: var(--white); border-color: var(--ula-light); }
+        .feature-icon {
+            font-size: 2.5rem;
+            color: var(--ula-primary);
+            margin-bottom: 24px;
+        }
+        .feature-card h3 { font-size: 1.3rem; margin-bottom: 12px; font-weight: 700; color: var(--ula-dark); }
+        .feature-card p { font-size: 0.95rem; color: var(--text-muted); margin-bottom: 24px; }
+        .feature-link { font-weight: 700; color: var(--ula-primary); display: flex; align-items: center; gap: 8px; }
+        .feature-link i { font-size: 0.8rem; background: var(--ula-light); padding: 6px; border-radius: 50%; transition: transform 0.3s; }
+        .feature-card:hover .feature-link i { transform: translateX(5px); background: var(--ula-primary); color: var(--white); }
+
+        /* ================= DARK SECTION (TRAYECTORIA/OBJETIVOS) ================= */
+        .dark-section { background-color: var(--ula-dark); color: var(--white); padding: 100px 0; }
+        .dark-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 80px; align-items: center; }
+        
+        .dark-content h2 { font-size: 3rem; font-weight: 800; line-height: 1.2; margin-bottom: 24px; }
+        
+        .objective-list { display: flex; flex-direction: column; gap: 24px; }
+        .objective-item {
+            display: flex; justify-content: space-between; align-items: center;
+            padding-bottom: 24px; border-bottom: 1px solid rgba(255,255,255,0.1);
+        }
+        .objective-item:last-child { border-bottom: none; padding-bottom: 0; }
+        
+        .obj-text span { display: block; font-size: 0.85rem; color: var(--ula-light); margin-bottom: 4px; text-transform: uppercase; letter-spacing: 1px; }
+        .obj-text h4 { font-size: 1.4rem; font-weight: 600; }
+        .obj-btn {
+            width: 48px; height: 48px; border-radius: 50%; background-color: rgba(255,255,255,0.1);
+            display: flex; justify-content: center; align-items: center; color: var(--white); transition: all 0.3s;
+        }
+        .objective-item:hover .obj-btn { background-color: var(--white); color: var(--ula-primary); transform: rotate(45deg); }
+
+        /* ================= NEWS / ARTICLES SECTION ================= */
+        .news-section { padding: 100px 0; }
+        .news-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 32px; }
+        
+        .news-card {
+            background: var(--white); border-radius: var(--radius-md); overflow: hidden;
+            box-shadow: var(--shadow-soft); transition: transform 0.3s;
+        }
+        .news-card:hover { transform: translateY(-8px); }
+        
+        .news-img { position: relative; height: 220px; }
+        .news-img img { width: 100%; height: 100%; object-fit: cover; }
+        .news-date {
+            position: absolute; bottom: 16px; left: 16px; background: var(--white);
+            color: var(--ula-primary); font-size: 0.8rem; font-weight: 700;
+            padding: 6px 12px; border-radius: 50px; box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        .news-content { padding: 24px; display: flex; flex-direction: column; height: calc(100% - 220px); }
+        .news-content h3 { font-size: 1.3rem; font-weight: 700; margin-bottom: 12px; line-height: 1.4; color: var(--ula-dark); }
+        .news-content p { color: var(--text-muted); font-size: 0.95rem; margin-bottom: 20px; flex-grow: 1; }
+        .news-readmore { font-weight: 700; color: var(--ula-primary); font-size: 0.9rem; text-transform: uppercase; letter-spacing: 0.5px; align-self: flex-start;}
+
+        /* ================= FOOTER & CONTACT ================= */
+        .footer-cta {
+            background-color: var(--ula-primary);
+            border-radius: var(--radius-lg);
+            margin: 0 24px 60px;
+            padding: 60px;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            color: var(--white);
+            box-shadow: var(--shadow-hover);
+        }
+        .footer-cta-text h2 { font-size: 2.2rem; font-weight: 800; margin-bottom: 10px; }
+        .footer-cta-text p { font-size: 1.1rem; opacity: 0.9; }
+        
+        .subscribe-form { display: flex; gap: 10px; width: 100%; max-width: 450px; background: rgba(255,255,255,0.1); padding: 8px; border-radius: 50px; border: 1px solid rgba(255,255,255,0.2); }
+        .subscribe-form input { flex: 1; background: transparent; border: none; padding: 10px 20px; color: var(--white); outline: none; }
+        .subscribe-form input::placeholder { color: rgba(255,255,255,0.7); }
+        .subscribe-form button { background: var(--white); color: var(--ula-primary); border: none; padding: 12px 24px; border-radius: 50px; font-weight: 700; cursor: pointer; transition: background 0.3s; }
+        .subscribe-form button:hover { background: var(--ula-light); }
+
+        footer { background-color: var(--white); padding: 40px 0; border-top: 1px solid rgba(0, 56, 118, 0.1); }
+        .footer-content { display: flex; justify-content: space-between; align-items: center; }
+        .social-links a { color: var(--text-muted); font-size: 1.2rem; margin-left: 16px; transition: color 0.3s; }
+        .social-links a:hover { color: var(--ula-primary); }
+        
+        /* Ajuste de responsividad básica para evitar desbordes */
+        @media (max-width: 1024px) {
+            .hero-grid, .dark-grid, .footer-cta { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
+            .hero-content h1 { font-size: 3rem; }
+            .hero-buttons, .subscribe-form { margin: 0 auto; justify-content: center; }
+            .features-grid { grid-template-columns: repeat(2, 1fr); }
+            .news-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
+            .floating-card { bottom: 10px; left: 10px; right: 10px; justify-content: center; }
+        }
+        @media (max-width: 600px) {
+            .features-grid { grid-template-columns: 1fr; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- NAVBAR -->
+    <div class="container">
+        <nav>
+            <div class="logo">
+                <i class="fa-solid fa-scale-balanced"></i>
+                INFO-ULA
+            </div>
+            <ul class="nav-links">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#">El Proyecto</a></li>
+                <li><a href="#">Artículos</a></li>
+                <li><a href="#">Contacto</a></li>
+            </ul>
+            <a href="participa.html" class="btn-primary">Participa <i class="fa-solid fa-arrow-right"></i></a>
+        </nav>
+    </div>
+
+    <!-- HERO SECTION -->
+    <section class="hero container">
+        <div class="hero-grid">
+            <div class="hero-content">
+                <span class="badge">Nuestra Investigación</span>
+                <h1>El Derecho a <span>Saber</span></h1>
+                <p>"El acceso a la información pública no es un privilegio, es un derecho humano fundamental que garantiza la equidad dentro de nuestro recinto universitario en la ULA San Cristóbal."</p>
+                <div class="hero-buttons">
+                    <a href="participa.html" class="btn-primary">Conoce tus Derechos</a>
+                    <a href="#" class="btn-outline"><i class="fa-solid fa-play"></i> Ver Metodología</a>
+                </div>
+            </div>
+            
+            <div class="hero-image">
+                <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1000&q=80" alt="Estudiantes universitarios">
+                <div class="floating-card">
+                    <div class="icon-box"><i class="fa-solid fa-university"></i></div>
+                    <div>
+                        <h4 style="color: var(--ula-dark); font-weight: 800;">ULA Táchira</h4>
+                        <p style="font-size: 0.85rem; color: var(--text-muted);">Investigación de Grado</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FEATURES / CARDS SECTION -->
+    <section class="features-section">
+        <div class="container">
+            <div class="section-header">
+                <span class="badge">Ejes Temáticos</span>
+                <h2>Soluciones para una Comunidad Informada</h2>
+                <p>Abordamos las principales barreras de acceso a la información y ofrecemos rutas de acción claras para la comunidad estudiantil.</p>
+            </div>
+
+            <div class="features-grid">
+                <!-- Tarjeta 1 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
+                    <h3>Transparencia Activa</h3>
+                    <p>Herramientas para supervisar los procesos y decisiones administrativas del núcleo universitario.</p>
+                    <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                <!-- Tarjeta 2 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-file-contract"></i></div>
+                    <h3>Leyes y Normativas</h3>
+                    <p>Conoce las leyes vigentes y cómo respaldan tu derecho constitucional a estar informado.</p>
+                    <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                <!-- Tarjeta 3 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
+                    <h3>Poder Estudiantil</h3>
+                    <p>La organización de la comunidad como base para exigir rendición de cuentas e igualdad de condiciones.</p>
+                    <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+                <!-- Tarjeta 4 -->
+                <div class="feature-card">
+                    <div class="feature-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
+                    <h3>Canales de Petición</h3>
+                    <p>Guías paso a paso para redactar y consignar solicitudes de información formales al consejo.</p>
+                    <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- DARK SECTION (TRAYECTORIA / OBJETIVOS) -->
+    <section class="dark-section">
+        <div class="container dark-grid">
+            <div class="dark-content">
+                <span class="badge" style="background-color: rgba(255,255,255,0.1); color: var(--white);">Metas Alcanzadas</span>
+                <h2>Nuestro Camino hacia la Transparencia</h2>
+                <p style="color: rgba(255,255,255,0.8); font-size: 1.1rem; margin-top: 20px;">
+                    El proyecto documenta cómo el libre acceso a la información oportuna y veraz fortalece la autonomía universitaria y reduce la opacidad institucional.
+                </p>
+            </div>
+            
+            <div class="objective-list">
+                <a href="#" class="objective-item">
+                    <div class="obj-text">
+                        <span>Fase 1 / 2025</span>
+                        <h4>Análisis del Entorno Jurídico Actual</h4>
+                    </div>
+                    <div class="obj-btn"><i class="fa-solid fa-arrow-up"></i></div>
+                </a>
+                <a href="#" class="objective-item">
+                    <div class="obj-text">
+                        <span>Fase 2 / 2025</span>
+                        <h4>Diagnóstico en el Núcleo Táchira</h4>
+                    </div>
+                    <div class="obj-btn"><i class="fa-solid fa-arrow-up"></i></div>
+                </a>
+                <a href="#" class="objective-item">
+                    <div class="obj-text">
+                        <span>Fase 3 / 2026</span>
+                        <h4>Desarrollo de Guías de Petición</h4>
+                    </div>
+                    <div class="obj-btn"><i class="fa-solid fa-arrow-up"></i></div>
+                </a>
+                <a href="#" class="objective-item">
+                    <div class="obj-text">
+                        <span>Fase 4 / 2026</span>
+                        <h4>Publicación de Resultados de Tesis</h4>
+                    </div>
+                    <div class="obj-btn"><i class="fa-solid fa-arrow-up"></i></div>
+                </a>
+            </div>
+        </div>
+    </section>
+
+    <!-- NEWS / ARTICLES SECTION -->
+    <section class="news-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Artículos y Recursos</h2>
+                <p>Lecturas recomendadas sobre tus derechos civiles y académicos dentro del recinto.</p>
+            </div>
+
+            <div class="news-grid">
+                <!-- Noticia 1 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Documentos legales">
+                        <div class="news-date">25 Jul, 2026</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>¿Cómo solicitar información administrativa?</h3>
+                        <p>Una guía paso a paso sobre los canales regulares y legales para que los estudiantes de la ULA Táchira puedan acceder a resoluciones del consejo de núcleo.</p>
+                        <a href="articulo-01.html" class="news-readmore">Ver más <i class="fa-solid fa-arrow-right-long" style="margin-left:5px;"></i></a>
+                    </div>
+                </div>
+                
+                <!-- Noticia 2 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Estudiantes debatiendo">
+                        <div class="news-date">18 Jul, 2026</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>El impacto de la opacidad estudiantil</h3>
+                        <p>Análisis de los resultados preliminares de nuestra tesis, detallando cómo la falta de información oportuna afecta el rendimiento y la planificación académica.</p>
+                        <a href="articulo-02.html" class="news-readmore">Ver más <i class="fa-solid fa-arrow-right-long" style="margin-left:5px;"></i></a>
+                    </div>
+                </div>
+
+                <!-- Noticia 3 -->
+                <div class="news-card">
+                    <div class="news-img">
+                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Investigación en biblioteca">
+                        <div class="news-date">10 Jul, 2026</div>
+                    </div>
+                    <div class="news-content">
+                        <h3>Marco legal venezolano: Tu derecho a saber</h3>
+                        <p>Un resumen claro y accesible sobre las leyes nacionales que respaldan la solicitud de información pública dentro de las instituciones autónomas.</p>
+                        <a href="articulo-03.html" class="news-readmore">Ver más <i class="fa-solid fa-arrow-right-long" style="margin-left:5px;"></i></a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FOOTER CTA (BOLETÍN/CONTACTO) -->
+    <div class="container">
+        <div class="footer-cta">
+            <div class="footer-cta-text">
+                <h2>¿Listo para sumarte al proyecto?</h2>
+                <p>Suscríbete para recibir actualizaciones sobre nuestra investigación y nuevas guías.</p>
+            </div>
+            <form class="subscribe-form">
+                <input type="email" placeholder="Tu correo electrónico..." required>
+                <button type="submit">Suscribirme</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- FOOTER SIMPLE -->
+    <footer class="container">
+        <div class="footer-content">
+            <p style="color: var(--text-muted); font-size: 0.95rem;">&copy; 2026 Proyecto de Tesis | Info-Derechos ULA Táchira.</p>
+            <div class="social-links">
+                <a href="#"><i class="fa-brands fa-x-twitter"></i></a>
+                <a href="#"><i class="fa-brands fa-linkedin-in"></i></a>
+                <a href="#"><i class="fa-brands fa-instagram"></i></a>
+            </div>
+        </div>
+    </footer>
+
+</body>
+</html>
