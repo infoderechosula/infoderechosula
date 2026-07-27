@@ -4,7 +4,7 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>El Derecho a Saber | ULA Táchira</title>
-    <!-- Fuentes de Google: Plus Jakarta Sans para un toque muy moderno y limpio -->
+    <!-- Fuentes de Google: Plus Jakarta Sans -->
     <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
     <!-- Iconos de FontAwesome -->
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
@@ -12,14 +12,13 @@
     <style>
         /* ================= VARIABLES Y RESET ================= */
         :root {
-            /* Paleta estricta Azul y Blanco */
-            --ula-primary: #003876; /* Azul ULA profundo */
-            --ula-secondary: #0056b3; /* Azul brillante para acentos/hover */
-            --ula-dark: #001a38; /* Azul casi negro para textos y fondos oscuros */
-            --ula-light: #e6f0fa; /* Azul muy claro para fondos de tarjetas/etiquetas */
+            --ula-primary: #003876;
+            --ula-secondary: #0056b3;
+            --ula-dark: #001a38;
+            --ula-light: #e6f0fa;
             
             --white: #ffffff;
-            --bg-body: #f8fbff; /* Blanco con un levísimo toque de azul */
+            --bg-body: #f8fbff;
             
             --text-main: #0a192f;
             --text-muted: #4a5d78;
@@ -44,7 +43,6 @@
         a { text-decoration: none; color: inherit; transition: all 0.3s ease; }
         .container { max-width: 1280px; margin: 0 auto; padding: 0 24px; }
         
-        /* Etiquetas (Badges) estilo moderno */
         .badge {
             display: inline-block;
             padding: 6px 14px;
@@ -65,14 +63,34 @@
             align-items: center;
             padding: 24px 0;
             background-color: transparent;
+            position: relative; /* Importante para el menú móvil */
         }
         
         .logo { font-size: 1.5rem; font-weight: 800; display: flex; align-items: center; gap: 10px; color: var(--ula-primary); }
         .logo i { font-size: 1.8rem; }
 
+        /* Contenedor del Menú (Desktop) */
+        .nav-menu {
+            display: flex;
+            align-items: center;
+            gap: 32px;
+        }
+
         .nav-links { display: flex; gap: 32px; align-items: center; list-style: none; font-weight: 600; font-size: 0.95rem; }
         .nav-links li a:hover { color: var(--ula-secondary); }
         
+        /* Botón Hamburguesa oculto por defecto */
+        .menu-toggle {
+            display: none;
+            background: none;
+            border: none;
+            font-size: 1.8rem;
+            color: var(--ula-primary);
+            cursor: pointer;
+            transition: color 0.3s;
+        }
+        .menu-toggle:hover { color: var(--ula-secondary); }
+
         .btn-primary {
             background-color: var(--ula-primary);
             color: var(--white);
@@ -83,6 +101,7 @@
             align-items: center;
             gap: 10px;
             box-shadow: 0 4px 15px rgba(0, 56, 118, 0.2);
+            transition: all 0.3s ease;
         }
         .btn-primary:hover { background-color: var(--ula-secondary); transform: translateY(-2px); color: var(--white); }
         
@@ -207,7 +226,7 @@
         .footer-cta {
             background-color: var(--ula-primary);
             border-radius: var(--radius-lg);
-            margin: 0 24px 60px;
+            margin: 0 0 60px;
             padding: 60px;
             display: flex;
             justify-content: space-between;
@@ -229,17 +248,93 @@
         .social-links a { color: var(--text-muted); font-size: 1.2rem; margin-left: 16px; transition: color 0.3s; }
         .social-links a:hover { color: var(--ula-primary); }
         
-        /* Ajuste de responsividad básica para evitar desbordes */
+        /* ================= RESPONSIVE DESIGN ================= */
+        
+        /* Pantallas medianas (Tablets y Laptops pequeñas) */
         @media (max-width: 1024px) {
             .hero-grid, .dark-grid, .footer-cta { grid-template-columns: 1fr; flex-direction: column; text-align: center; }
             .hero-content h1 { font-size: 3rem; }
-            .hero-buttons, .subscribe-form { margin: 0 auto; justify-content: center; }
+            .hero-buttons { justify-content: center; }
+            .hero-content p { margin: 0 auto 40px auto; }
+            .subscribe-form { margin: 24px auto 0; justify-content: center; }
             .features-grid { grid-template-columns: repeat(2, 1fr); }
             .news-grid { grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); }
             .floating-card { bottom: 10px; left: 10px; right: 10px; justify-content: center; }
         }
+
+        /* Pantallas pequeñas (Móviles) */
+        @media (max-width: 768px) {
+            /* Navegación Móvil (Hamburguesa) */
+            nav { padding: 20px 0; }
+            
+            .menu-toggle { display: block; z-index: 1001; }
+            
+            .nav-menu {
+                position: absolute;
+                top: 80px; /* Debajo del navbar */
+                left: 0;
+                right: 0;
+                background-color: var(--white);
+                flex-direction: column;
+                padding: 30px 24px;
+                box-shadow: var(--shadow-hover);
+                border-radius: var(--radius-md);
+                gap: 24px;
+                
+                /* Animación de entrada */
+                opacity: 0;
+                visibility: hidden;
+                transform: translateY(-20px);
+                transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+                z-index: 1000;
+            }
+
+            .nav-menu.active {
+                opacity: 1;
+                visibility: visible;
+                transform: translateY(0);
+            }
+
+            .nav-links {
+                flex-direction: column;
+                width: 100%;
+                gap: 20px;
+            }
+
+            .nav-links li { width: 100%; text-align: center; }
+            .nav-links li a { display: block; padding: 10px; font-size: 1.1rem; }
+            
+            .nav-menu .btn-primary { width: 100%; justify-content: center; }
+            
+            /* Resto de secciones */
+            .hero { padding: 40px 0 60px; }
+            .hero-content h1 { font-size: 2.5rem; }
+            
+            .section-header h2, .dark-content h2, .footer-cta-text h2 { font-size: 2rem; }
+            .features-section, .dark-section, .news-section { padding: 60px 0; }
+            
+            /* Footer CTA (Boletín) */
+            .footer-cta { padding: 40px 20px; border-radius: var(--radius-md); }
+            .subscribe-form { flex-direction: column; background: transparent; border: none; padding: 0; border-radius: 0; }
+            .subscribe-form input { width: 100%; background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.2); border-radius: 50px; margin-bottom: 10px; padding: 14px 20px; }
+            .subscribe-form button { width: 100%; padding: 14px 24px; }
+            
+            /* Footer Simple */
+            .footer-content { flex-direction: column; gap: 20px; text-align: center; }
+            .social-links a { margin: 0 10px; }
+        }
+
+        /* Pantallas muy pequeñas (Smartphones compactos) */
         @media (max-width: 600px) {
             .features-grid { grid-template-columns: 1fr; }
+            
+            /* Botones del Hero expandidos */
+            .hero-buttons { flex-direction: column; width: 100%; }
+            .hero-buttons a { text-align: center; justify-content: center; width: 100%; }
+            
+            /* Lista de objetivos */
+            .objective-item { flex-direction: column; text-align: center; gap: 16px; align-items: center; }
+            .obj-text span { margin-bottom: 8px; }
         }
     </style>
 </head>
@@ -248,21 +343,30 @@
     <!-- NAVBAR -->
     <div class="container">
         <nav>
-    <div class="logo">
-        <i class="fa-solid fa-scale-balanced"></i>
-        INFO-ULA
-    </div>
-    <ul class="nav-links">
-        <li><a href="index.html">Inicio</a></li>
-        <li><a href="#">Historia</a></li>
-        <li><a href="#">El Problema</a></li>
-        <li><a href="#">Préstamos</a></li>
-        <li><a href="#">Espacios</a></li>
-        <li><a href="#">Entrevistas</a></li>
-        <li><a href="#">Preguntas</a></li>
-    </ul>
-    <a href="participa.html" class="btn-primary">Contribuye <i class="fa-solid fa-arrow-right"></i></a>
-</nav>
+            <div class="logo">
+                <i class="fa-solid fa-scale-balanced"></i>
+                INFO-ULA
+            </div>
+            
+            <!-- Botón de Hamburguesa -->
+            <button class="menu-toggle" id="menuToggle" aria-label="Abrir menú">
+                <i class="fa-solid fa-bars"></i>
+            </button>
+
+            <!-- Contenedor del menú -->
+            <div class="nav-menu" id="navMenu">
+                <ul class="nav-links">
+                    <li><a href="index.html">Inicio</a></li>
+                    <li><a href="#">Historia</a></li>
+                    <li><a href="#">El Problema</a></li>
+                    <li><a href="#">Préstamos</a></li>
+                    <li><a href="#">Espacios</a></li>
+                    <li><a href="#">Entrevistas</a></li>
+                    <li><a href="#">Preguntas</a></li>
+                </ul>
+                <a href="participa.html" class="btn-primary">Contribuye <i class="fa-solid fa-arrow-right"></i></a>
+            </div>
+        </nav>
     </div>
 
     <!-- HERO SECTION -->
@@ -301,28 +405,24 @@
             </div>
 
             <div class="features-grid">
-                <!-- Tarjeta 1 -->
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-magnifying-glass"></i></div>
                     <h3>Transparencia Activa</h3>
                     <p>Herramientas para supervisar los procesos y decisiones administrativas del núcleo universitario.</p>
                     <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
-                <!-- Tarjeta 2 -->
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-file-contract"></i></div>
                     <h3>Leyes y Normativas</h3>
                     <p>Conoce las leyes vigentes y cómo respaldan tu derecho constitucional a estar informado.</p>
                     <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
-                <!-- Tarjeta 3 -->
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-users"></i></div>
                     <h3>Poder Estudiantil</h3>
                     <p>La organización de la comunidad como base para exigir rendición de cuentas e igualdad de condiciones.</p>
                     <a href="#" class="feature-link">Saber más <i class="fa-solid fa-chevron-right"></i></a>
                 </div>
-                <!-- Tarjeta 4 -->
                 <div class="feature-card">
                     <div class="feature-icon"><i class="fa-solid fa-envelope-open-text"></i></div>
                     <h3>Canales de Petición</h3>
@@ -386,7 +486,6 @@
             </div>
 
             <div class="news-grid">
-                <!-- Noticia 1 -->
                 <div class="news-card">
                     <div class="news-img">
                         <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Documentos legales">
@@ -399,7 +498,6 @@
                     </div>
                 </div>
                 
-                <!-- Noticia 2 -->
                 <div class="news-card">
                     <div class="news-img">
                         <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Estudiantes debatiendo">
@@ -412,7 +510,6 @@
                     </div>
                 </div>
 
-                <!-- Noticia 3 -->
                 <div class="news-card">
                     <div class="news-img">
                         <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Investigación en biblioteca">
@@ -454,5 +551,38 @@
         </div>
     </footer>
 
+    <!-- SCRIPT PARA EL MENÚ HAMBURGUESA -->
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const menuToggle = document.getElementById('menuToggle');
+            const navMenu = document.getElementById('navMenu');
+            const icon = menuToggle.querySelector('i');
+
+            menuToggle.addEventListener('click', () => {
+                navMenu.classList.toggle('active');
+                
+                // Cambiar el icono entre barras y X
+                if (navMenu.classList.contains('active')) {
+                    icon.classList.remove('fa-bars');
+                    icon.classList.add('fa-xmark');
+                } else {
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+
+            // Cerrar el menú si se hace click fuera de él
+            document.addEventListener('click', (event) => {
+                const isClickInsideMenu = navMenu.contains(event.target);
+                const isClickOnToggle = menuToggle.contains(event.target);
+                
+                if (!isClickInsideMenu && !isClickOnToggle && navMenu.classList.contains('active')) {
+                    navMenu.classList.remove('active');
+                    icon.classList.remove('fa-xmark');
+                    icon.classList.add('fa-bars');
+                }
+            });
+        });
+    </script>
 </body>
 </html>
