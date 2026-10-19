@@ -1,323 +1,338 @@
 <!DOCTYPE html>
 <html lang="es">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Acceso a la Información | ULA Táchira</title>
-    <!-- Fuentes de Google -->
-    <link href="https://fonts.googleapis.com/css2?family=Lato:wght@300;400;700&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
-    <!-- Iconos de FontAwesome -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Académica | La biblioteca es un derecho</title>
+<style>
+    :root{
+        --ink:#0b2545;        /* azul profundo (textos y títulos) */
+        --blue:#1d5fa7;       /* azul institucional (acentos, botones) */
+        --blue-dark:#15497f;    /* azul oscuro (hover) */
+        --blue-light:#9cc4ea;   /* azul claro (detalles sobre fondo oscuro) */
+        --blue-soft:#eaf1f9;    /* azul muy suave (fondos) */
+        --paper:#f6f9fc;        /* fondo general azulado */
+        --white:#ffffff;
+        --grey:#4f5b66;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+    ::selection{background:var(--blue);color:#fff;}
+    section{scroll-margin-top:95px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+    .justify{text-align:justify;line-height:1.9;color:#3d4a58;}
+    .kicker{display:block;letter-spacing:3px;text-transform:uppercase;font-size:.82rem;font-weight:bold;color:var(--blue);margin-bottom:.8rem;}
 
-    <style>
-        /* ================= VARIABLES Y RESET ================= */
-        :root {
-            --bg-color: #faf9f6; 
-            --text-main: #1a1a1a;
-            --text-muted: #4a4a4a;
-            --accent-color: #0b3d91; 
-            --accent-hover: #082b66;
-            --btn-color: #e6b325; 
-        }
+    /* ============ 1. NAVBAR (logo | menú | Regístrate) ============ */
+    header{position:sticky;top:0;z-index:100;background:rgba(246,249,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid #dce6f2;}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.05rem 0;flex-wrap:wrap;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-size:1.45rem;font-weight:bold;color:var(--ink);text-decoration:none;}
+    .logo svg{width:26px;height:26px;stroke:var(--blue);}
+    .nav-menu{display:flex;gap:1.9rem;list-style:none;flex-wrap:wrap;}
+    .nav-menu a{color:var(--ink);text-decoration:none;font-weight:bold;font-size:1rem;transition:color .25s;}
+    .nav-menu a:hover{color:var(--blue);}
+    .btn-registro{background:var(--blue);color:#fff;border:none;padding:.6rem 1.4rem;font-family:inherit;font-weight:bold;font-size:.95rem;border-radius:3px;cursor:pointer;box-shadow:0 3px 10px rgba(29,95,167,.35);transition:all .25s;}
+    .btn-registro:hover{background:var(--blue-dark);transform:translateY(-2px);}
 
-        * { margin: 0; padding: 0; box-sizing: border-box; }
+    /* ============ 2. SLIDER DE IMÁGENES ============ */
+    .slider{position:relative;height:min(72vh,640px);min-height:430px;overflow:hidden;background:var(--ink);}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-color:var(--ink);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;}
+    .slide.active{opacity:1;z-index:1;}
+    .slide--1{background-image:linear-gradient(rgba(11,37,69,.45),rgba(11,37,69,.68)),url('images/slider-1.jpg');}
+    .slide--2{background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.7)),url('images/slider-2.jpg');}
+    .slide--3{background-image:linear-gradient(rgba(11,37,69,.35),rgba(11,37,69,.6)),url('images/slider-3.jpg');}
+    .slide-content{position:relative;max-width:860px;padding:0 4.5rem;}
+    .slide-content .kicker{color:#cfe2f5;}
+    .slide-content h2{font-size:clamp(1.9rem,4.6vw,3.2rem);text-transform:uppercase;letter-spacing:2px;line-height:1.2;text-shadow:2px 2px 6px rgba(11,37,69,.6);}
+    .slide-content p{margin-top:1rem;font-size:1.15rem;font-style:italic;color:#e8f0fa;}
+    .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:52px;height:52px;border-radius:50%;border:none;background:rgba(11,37,69,.45);color:#fff;font-size:2rem;line-height:1;cursor:pointer;transition:background .25s;}
+    .slider-arrow:hover{background:var(--blue);}
+    .arrow-left{left:20px;} .arrow-right{right:20px;}
+    .dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5;}
+    .dot{width:11px;height:11px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;transition:background .25s;}
+    .dot.active{background:var(--blue-light);}
 
-        body {
-            font-family: 'Lato', sans-serif;
-            background-color: var(--bg-color);
-            color: var(--text-main);
-            line-height: 1.6;
-            background-image: radial-gradient(#d5d5d5 1px, transparent 1px);
-            background-size: 24px 24px;
-            overflow-x: hidden; /* Evita scroll horizontal con las animaciones */
-        }
+    /* ============ 3. PROBLEMÁTICA ============ */
+    .problematica{padding:4.5rem 0 3rem;}
+    .section-title{font-size:2.3rem;text-align:center;margin-bottom:2.2rem;position:relative;padding-bottom:1rem;color:var(--ink);}
+    .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:3px;background:var(--blue);}
+    .problematica p{max-width:1020px;margin:0 auto;}
+    .ver-mas{display:block;max-width:1020px;margin:1.2rem auto 0;text-align:right;font-weight:bold;color:var(--ink);text-decoration:none;transition:color .25s;}
+    .ver-mas:hover{color:var(--blue);}
+    #parExtra{display:none;margin-top:1.2rem;}
+    #parExtra.show{display:block;}
 
-        h1, h2, h3, h4, .editorial-font { font-family: 'Playfair Display', serif; }
-        a { text-decoration: none; color: inherit; }
-        .container { max-width: 1200px; margin: 0 auto; padding: 0 20px; }
+    /* ============ 4. FLYER + TEXTO + CTA ============ */
+    .duo{display:grid;grid-template-columns:5fr 7fr;gap:3.5rem;align-items:center;padding:1.5rem 0 4.5rem;}
+    .flyer{aspect-ratio:3/4;background:linear-gradient(160deg,#0b2545 0%,#123a66 100%);color:var(--blue-soft);border:1px solid var(--blue-light);box-shadow:0 18px 45px rgba(11,37,69,.28), inset 0 0 0 6px #0b2545, inset 0 0 0 7px var(--blue-light);padding:2.4rem 1.8rem;display:flex;flex-direction:column;justify-content:space-between;text-align:center;}
+    .flyer-top{font-size:.78rem;letter-spacing:2.5px;text-transform:uppercase;color:#b9d2ec;}
+    .flyer-mid svg{width:52px;height:52px;stroke:var(--blue-light);margin:0 auto 1rem;display:block;fill:none;}
+    .flyer-mid h3{font-size:1.7rem;line-height:1.3;text-transform:uppercase;letter-spacing:1px;color:#fff;}
+    .flyer-line{width:70px;height:3px;background:var(--blue-light);margin:1.1rem auto;}
+    .flyer-mid p{font-size:.95rem;color:#dce8f5;}
+    .flyer-mid p strong{color:#fff;}
+    .flyer-bottom{font-size:1.5rem;font-weight:bold;color:var(--blue-light);}
+    .flyer-bottom small{display:block;font-size:.75rem;color:#8fa8c4;letter-spacing:1px;margin-top:.4rem;font-weight:normal;}
+    .duo-text .firmas{margin-top:1.2rem;font-size:.9rem;letter-spacing:1px;text-transform:uppercase;color:#7d8b99;}
+    .cta-wrap{text-align:center;margin-top:2.2rem;}
+    .btn-cta{background:var(--blue);color:#fff;border:none;padding:.9rem 2.4rem;font-family:inherit;font-weight:bold;font-size:1.05rem;border-radius:3px;cursor:pointer;box-shadow:0 5px 16px rgba(29,95,167,.4);transition:all .25s;}
+    .btn-cta:hover{background:var(--blue-dark);transform:translateY(-3px);}
 
-        /* ================= CLASES DE ANIMACIÓN AL SCROLLEAR ================= */
-        .reveal {
-            opacity: 0;
-            transform: translateY(40px);
-            transition: all 0.8s ease-out;
-        }
-        .reveal.active {
-            opacity: 1;
-            transform: translateY(0);
-        }
+    /* ============ 5. HORARIO | MENU | REDES ============ */
+    .info-cols{background:var(--white);border-top:1px solid #dce6f2;padding:4rem 0;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);}
+    .col{padding:0 2.6rem;text-align:center;}
+    .col + .col{border-left:2px solid var(--ink);}
+    .col h3{font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.6rem;color:var(--ink);}
+    .col ul{list-style:none;}
+    .col li{margin-bottom:1rem;color:var(--grey);}
+    .col li strong{color:var(--ink);}
+    .note{font-size:.85rem;color:#7d8b99;font-style:italic;margin-top:1rem;}
+    .addr{font-size:.9rem;color:var(--grey);margin-top:.8rem;}
+    .menu-list li{margin-bottom:.7rem;}
+    .menu-list a{color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .menu-list a:hover{color:var(--blue);}
+    .red-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1rem;color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .red-row:hover{color:var(--blue);}
+    .red-row svg{width:20px;height:20px;fill:var(--blue);flex-shrink:0;}
 
-        /* ================= NAVBAR ================= */
-        nav {
-            display: flex;
-            justify-content: space-between;
-            align-items: center;
-            padding: 20px 0;
-            border-bottom: 1px solid rgba(0,0,0,0.1);
-        }
-        
-        .logo { font-size: 1.5rem; font-weight: 700; letter-spacing: 1px; display: flex; align-items: center; gap: 10px;}
-        .logo i { color: var(--accent-color); }
+    footer.bar{background:var(--ink);color:#b9d2ec;text-align:center;padding:1.6rem 24px;font-size:.85rem;line-height:1.8;}
+    footer.bar strong{color:var(--blue-light);}
 
-        .nav-links { display: flex; gap: 30px; align-items: center; list-style: none; font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px;}
-        
-        /* Efecto Hover Subrayado en Navbar */
-        .nav-links li a:not(.btn-nav) { position: relative; padding-bottom: 5px; }
-        .nav-links li a:not(.btn-nav)::after {
-            content: '';
-            position: absolute;
-            width: 100%;
-            height: 2px;
-            bottom: 0;
-            left: 0;
-            background-color: var(--accent-color);
-            transform: scaleX(0);
-            transform-origin: bottom right;
-            transition: transform 0.3s ease-out;
-        }
-        .nav-links li a:not(.btn-nav):hover::after {
-            transform: scaleX(1);
-            transform-origin: bottom left;
-        }
-        .nav-links li a:not(.btn-nav):hover { color: var(--accent-color); transition: color 0.3s ease; }
-        
-        .btn-nav {
-            background-color: var(--btn-color);
-            padding: 10px 20px;
-            border-radius: 25px;
-            color: #111;
-            transition: all 0.3s;
-        }
-        .btn-nav:hover { background-color: #d1a21f; transform: translateY(-3px); box-shadow: 0 4px 10px rgba(0,0,0,0.1); }
+    /* ============ MODAL REGÍSTRATE / DEJA TU HUELLA ============ */
+    .modal-overlay{position:fixed;inset:0;background:rgba(11,37,69,.65);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#fff;max-width:480px;width:100%;padding:2.2rem;position:relative;box-shadow:0 25px 60px rgba(11,37,69,.35);border-top:5px solid var(--blue);max-height:90vh;overflow:auto;}
+    .modal h3{font-size:1.6rem;margin-bottom:.4rem;color:var(--ink);}
+    .modal > p{font-size:.9rem;color:#7d8b99;margin-bottom:1.4rem;}
+    .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.6rem;cursor:pointer;color:#9aa8b5;}
+    .modal label{display:block;font-size:.85rem;font-weight:bold;margin:.9rem 0 .3rem;color:var(--ink);}
+    .modal input,.modal select,.modal textarea{width:100%;padding:.6rem;border:1px solid #b9c6d4;font-family:inherit;font-size:.95rem;background:#fafcff;}
+    .modal input:focus,.modal select:focus,.modal textarea:focus{outline:2px solid var(--blue);}
+    .modal .btn-cta{width:100%;margin-top:1.4rem;}
+    .modal-success{display:none;text-align:center;padding:2rem 0;}
+    .modal-success svg{width:60px;height:60px;stroke:var(--blue);fill:none;margin-bottom:1rem;}
 
-        /* ================= HEADER TÍTULO Y 3 ICONOS ================= */
-        .mission-section { text-align: center; padding: 80px 0 60px; background-color: var(--bg-color); }
-        
-        /* Animación Tipo Escritura (Typewriter) CORREGIDA */
-        .mission-subtitle { 
-            font-size: 1rem; 
-            text-transform: uppercase; 
-            letter-spacing: 3px; 
-            color: var(--text-muted); 
-            margin: 0 auto 10px; 
-            font-weight: 700;
-            /* Propiedades de la animación */
-            display: inline-block; /* Mantiene el texto en su propio bloque ajustado */
-            overflow: hidden;
-            white-space: nowrap;
-            border-right: 2px solid var(--accent-color);
-            width: 32ch; /* Ancho ajustado para que quepa toda la palabra */
-            animation: typing 2.5s steps(32, end), blink-caret .75s step-end infinite;
-        }
-
-        @keyframes typing { from { width: 0 } }
-        @keyframes blink-caret { from, to { border-color: transparent } 50% { border-color: var(--accent-color); } }
-
-        .mission-title { font-size: 3.5rem; margin-bottom: 50px; font-weight: 700; }
-
-        .features { display: flex; justify-content: center; gap: 60px; }
-        
-        /* Efectos Hover en los 3 Iconos */
-        .feature-item { 
-            text-align: center; 
-            max-width: 150px; 
-            transition: transform 0.3s ease;
-            cursor: pointer;
-        }
-        .feature-item i { 
-            font-size: 2.5rem; 
-            margin-bottom: 15px; 
-            color: var(--text-main); 
-            transition: all 0.3s ease;
-        }
-        .feature-item p { font-size: 0.9rem; font-weight: 700; text-transform: uppercase; letter-spacing: 1px; transition: color 0.3s ease; }
-        
-        .feature-item:hover { transform: translateY(-10px); }
-        .feature-item:hover i { transform: scale(1.15); color: var(--accent-color); }
-        .feature-item:hover p { color: var(--accent-color); }
-
-        /* ================= IMAGEN CENTRAL CON TEXTURA ================= */
-        .hero-image-container { width: 100%; height: 500px; position: relative; overflow: hidden;}
-        .hero-image-container::after {
-            content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0;
-            background-image: radial-gradient(rgba(0,0,0,0.2) 1px, transparent 1px);
-            background-size: 4px 4px; pointer-events: none; 
-        }
-        .hero-image-container img { width: 100%; height: 100%; object-fit: cover; border-radius: 0; }
-
-        /* ================= GET INVOLVED (PARTICIPA) ================= */
-        .get-involved { text-align: center; padding: 80px 20px; background-color: #ffffff; border-top: 1px solid #eee; border-bottom: 1px solid #eee;}
-        .get-involved h2 { font-size: 2.5rem; margin-bottom: 20px; text-transform: uppercase; letter-spacing: 2px;}
-        .get-involved p { max-width: 600px; margin: 0 auto 40px; color: var(--text-muted); font-size: 1.1rem; font-style: italic; font-family: 'Playfair Display', serif;}
-        
-        .btn-primary {
-            display: inline-block;
-            background-color: var(--btn-color);
-            color: #111;
-            padding: 15px 35px;
-            border-radius: 30px;
-            font-weight: 700;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            font-size: 0.9rem;
-            transition: all 0.3s ease;
-        }
-        .btn-primary:hover { background-color: #d1a21f; transform: translateY(-3px) scale(1.05); box-shadow: 0 10px 20px rgba(0,0,0,0.1); }
-
-        /* ================= ARTÍCULOS SUGERIDOS ================= */
-        .articles-section { padding: 80px 0; background-color: var(--bg-color); }
-        .section-header { text-align: center; margin-bottom: 50px; }
-        .section-header h2 { font-size: 2.5rem; text-transform: uppercase; letter-spacing: 2px; }
-
-        .articles-grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 40px; padding: 0 20px; }
-
-        /* Tarjeta y Efecto Zoom en Imagen */
-        .article-card { display: flex; flex-direction: column; position: relative; transition: transform 0.4s ease; }
-        .article-card:hover { transform: translateY(-8px); }
-        
-        .img-wrapper {
-            width: 100%; height: 250px; border-radius: 20px;
-            overflow: hidden; /* Esto mantiene la imagen dentro de la curva al hacer zoom */
-            margin-bottom: 20px; box-shadow: 0 10px 20px rgba(0,0,0,0.05);
-        }
-        .img-wrapper img { width: 100%; height: 100%; object-fit: cover; transition: transform 0.6s ease; }
-        
-        .article-card:hover .img-wrapper img { transform: scale(1.1); }
-
-        .article-date { font-size: 0.8rem; color: var(--accent-color); font-weight: 700; text-transform: uppercase; letter-spacing: 1px; margin-bottom: 10px;}
-        .article-title { font-size: 1.5rem; margin-bottom: 15px; line-height: 1.3; }
-        .article-excerpt { color: var(--text-muted); margin-bottom: 20px; flex-grow: 1; }
-        
-        .read-more { align-self: flex-start; font-weight: 700; text-transform: uppercase; font-size: 0.85rem; letter-spacing: 1px; position: static; }
-        .read-more::before { content: ''; position: absolute; top: 0; left: 0; right: 0; bottom: 0; z-index: 1; }
-        .read-more::after { content: '→'; margin-left: 5px; transition: margin-left 0.3s ease; }
-        .article-card:hover .read-more::after { margin-left: 10px; color: var(--accent-color); }
-        .article-card:hover .read-more { color: var(--accent-color); }
-
-        /* ================= FOOTER ================= */
-        footer { background-color: #111; color: #fff; text-align: center; padding: 30px; font-size: 0.9rem; z-index: 2; position: relative;}
-    </style>
+    @media (max-width:980px){
+        .duo{grid-template-columns:1fr;}
+        .flyer{max-width:360px;margin:0 auto;width:100%;}
+        .grid3{grid-template-columns:1fr;}
+        .col{padding:0;}
+        .col + .col{border-left:none;border-top:2px solid var(--ink);margin-top:2.2rem;padding-top:2.2rem;}
+        .slide-content{padding:0 3.5rem;}
+    }
+    @media (max-width:640px){
+        .nav{justify-content:center;}
+        .nav-menu{gap:1rem;justify-content:center;font-size:.92rem;}
+        .slider{height:60vh;}
+    }
+</style>
 </head>
 <body>
 
-    <!-- NAVBAR -->
-    <div class="container">
-        <nav>
-            <div class="logo">
-                <i class="fa-solid fa-scale-balanced"></i>
-                INFO-DERECHOS ULA
-            </div>
-            <ul class="nav-links">
-                <li><a href="index.html">Inicio</a></li>
-                <li><a href="#">El Proyecto</a></li>
-                <li><a href="#">Artículos</a></li>
-                <li><a href="#" class="btn-nav">Participa</a></li>
-            </ul>
-        </nav>
+<!-- ===================== NAVBAR ===================== -->
+<header>
+    <div class="container nav">
+        <a class="logo" href="#inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            Bitácora Académica
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#inicio">inicio</a></li>
+            <li><a href="#visitanos">visítanos</a></li>
+            <li><a href="#inicio" data-slide="1">servicios</a></li>
+            <li><a href="#inicio" data-slide="2">testimonios</a></li>
+            <li><a href="#actua">actúa</a></li>
+            <li><a href="#nosotros">nosotros</a></li>
+        </ul>
+        <button class="btn-registro" data-open-modal>Regístrate</button>
     </div>
+</header>
 
-    <!-- TÍTULO Y 3 ICONOS -->
-    <section class="mission-section">
-        <div class="container">
-            <p class="mission-subtitle">Nuestra Investigación</p>
-            <h1 class="mission-title reveal">El Derecho a Saber</h1>
-            
-            <div class="features reveal">
-                <div class="feature-item">
-                    <i class="fa-solid fa-magnifying-glass"></i>
-                    <p>Transparencia Activa</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-file-contract"></i>
-                    <p>Leyes y Normativas</p>
-                </div>
-                <div class="feature-item">
-                    <i class="fa-solid fa-users"></i>
-                    <p>Poder Estudiantil</p>
-                </div>
-            </div>
+<!-- ===================== SLIDER DE IMÁGENES ===================== -->
+<section class="slider" id="inicio" aria-label="Slider de imágenes">
+    <div class="slide slide--1 active">
+        <div class="slide-content">
+            <span class="kicker">ULA · Núcleo "Dr. Pedro Rincón Gutiérrez" — Táchira</span>
+            <h2>Biblioteca Luis Beltrán Prieto Figueroa</h2>
+            <p>Guardiana del saber histórico y cultural de nuestra comunidad universitaria.</p>
         </div>
-    </section>
-
-    <!-- IMAGEN CENTRAL CON TEXTURA -->
-    <section class="hero-image-container reveal">
-        <img src="https://images.unsplash.com/photo-1541339907198-e08756dedf3f?ixlib=rb-4.0.3&auto=format&fit=crop&w=1920&q=80" alt="Estudiantes en el campus universitario">
-    </section>
-
-    <!-- GET INVOLVED (PARTICIPA) -->
-    <section class="get-involved reveal">
-        <div class="container">
-            <h2>Involúcrate</h2>
-            <p>"El acceso a la información pública no es un privilegio, es un derecho humano fundamental que garantiza la equidad dentro de nuestro recinto universitario en la ULA San Cristóbal."</p>
-            <a href="participa.html" class="btn-primary">Conoce tus Derechos</a>
+    </div>
+    <div class="slide slide--2">
+        <div class="slide-content">
+            <span class="kicker">Servicios</span>
+            <h2>Un espacio vivo al servicio del saber</h2>
+            <p>Préstamo de material · salas de estudio · hemeroteca y archivo histórico · internet · talleres culturales.</p>
         </div>
-    </section>
-
-    <!-- ARTÍCULOS SUGERIDOS -->
-    <section class="articles-section reveal">
-        <div class="container">
-            <div class="section-header">
-                <h2>Artículos y Recursos</h2>
-            </div>
-            
-            <div class="articles-grid">
-                <!-- Artículo 1 -->
-                <article class="article-card">
-                    <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1589829085413-56de8ae18c73?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Documentos legales">
-                    </div>
-                    <div class="article-date">25 Julio, 2026</div>
-                    <h3 class="article-title">¿Cómo solicitar información administrativa en la ULA?</h3>
-                    <p class="article-excerpt">Una guía paso a paso sobre los canales regulares y legales para que los estudiantes de la ULA Táchira puedan acceder a resoluciones del consejo de núcleo.</p>
-                    <a href="articulo-01.html" class="read-more">Ver más</a>
-                </article>
-
-                <!-- Artículo 2 -->
-                <article class="article-card">
-                    <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1524178232363-1fb2b075b655?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Estudiantes debatiendo">
-                    </div>
-                    <div class="article-date">18 Julio, 2026</div>
-                    <h3 class="article-title">El impacto de la opacidad en el desarrollo estudiantil</h3>
-                    <p class="article-excerpt">Análisis de los resultados preliminares de nuestra tesis, detallando cómo la falta de información oportuna afecta el rendimiento y la planificación académica.</p>
-                    <a href="articulo-02.html" class="read-more">Ver más</a>
-                </article>
-
-                <!-- Artículo 3 -->
-                <article class="article-card">
-                    <div class="img-wrapper">
-                        <img src="https://images.unsplash.com/photo-1454165804606-c3d57bc86b40?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Investigación en biblioteca">
-                    </div>
-                    <div class="article-date">10 Julio, 2026</div>
-                    <h3 class="article-title">Marco legal venezolano: Tu derecho a saber</h3>
-                    <p class="article-excerpt">Un resumen claro y accesible sobre las leyes nacionales que respaldan la solicitud de información pública dentro de las instituciones autónomas.</p>
-                    <a href="articulo-03.html" class="read-more">Ver más</a>
-                </article>
-            </div>
+    </div>
+    <div class="slide slide--3">
+        <div class="slide-content">
+            <span class="kicker">Testimonios</span>
+            <h2>"La biblioteca no es un lujo: es un derecho"</h2>
+            <p>Voces de estudiantes y docentes que día a día sienten el peso de sus puertas cerradas.</p>
         </div>
-    </section>
+    </div>
+    <button class="slider-arrow arrow-left" id="prevSlide" aria-label="Anterior">&#10094;</button>
+    <button class="slider-arrow arrow-right" id="nextSlide" aria-label="Siguiente">&#10095;</button>
+    <div class="dots" id="dots"></div>
+</section>
 
-    <!-- FOOTER -->
-    <footer>
-        <p>&copy; 2026 Proyecto de Tesis | Universidad de Los Andes, San Cristóbal, Táchira.</p>
-    </footer>
+<!-- ===================== PROBLEMÁTICA ===================== -->
+<section class="problematica" id="problematica">
+    <div class="container">
+        <h2 class="section-title">Detrás de puertas cerradas: impacto y deterioro de la biblioteca universitaria</h2>
+        <p class="justify">
+            La biblioteca universitaria constituye un espacio esencial dentro del ámbito académico para la organización, preservación y difusión de información y conocimiento. Sin embargo, en la biblioteca “Luis Beltrán Prieto Figueroa” del núcleo universitario Dr. Pedro Rincón Gutiérrez de la Universidad de Los Andes, esta realidad se ve afectada por la crisis que atraviesa. Desde el año 2019, este espacio padece un cierre técnico originado por una compleja combinación de factores.
+        </p>
+        
+    </div>
+</section>
 
-    <!-- SCRIPT PARA ANIMACIONES AL HACER SCROLL -->
-    <script>
-        document.addEventListener("DOMContentLoaded", function() {
-            // Utilizamos IntersectionObserver para detectar cuando un elemento entra en la pantalla
-            const observer = new IntersectionObserver((entries) => {
-                entries.forEach((entry) => {
-                    if (entry.isIntersecting) {
-                        entry.target.classList.add('active'); // Añade la clase que activa la animación
-                    }
-                });
-            }, { threshold: 0.15 }); // 0.15 significa que la animación inicia cuando el 15% del elemento es visible
-            
-            // Selecciona todos los elementos con la clase "reveal" y los observa
-            document.querySelectorAll('.reveal').forEach((el) => observer.observe(el));
+<!-- ===================== FLYER + TEXTO + CTA ===================== -->
+<section class="container duo" id="actua">
+    <aside class="flyer" aria-label="Flyer de la campaña">
+        <div class="flyer-top">Universidad de Los Andes · Núcleo Táchira<br>Departamento de Comunicación Social</div>
+        <div class="flyer-mid">
+            <svg viewBox="0 0 24 24" stroke-width="1.6"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            <h3>La biblioteca es un derecho, no un privilegio</h3>
+            <div class="flyer-line"></div>
+            <p>Foro abierto a la comunidad universitaria<br><strong>25 · 10 · 2026 — Auditorio principal, ULA Táchira</strong></p>
+        </div>
+        <div class="flyer-bottom">#DejaTuHuella<small>Sarmiento · Gamboa — 2026</small></div>
+    </aside>
+
+    <div class="duo-text" id="nosotros">
+        <p class="justify">
+            Entre las principales causas de esta inoperatividad destacan la falta de mantenimiento continuo y la insuficiencia de recursos financieros por la situación del país que afectan de manera económica estos espacios, situación que desencadenó un severo deterioro estructural reflejado en filtraciones, canales de agua oxidados, ventanas dañadas, así como en la caída de fragmentos de la edificación como consecuencia de las mismas filtraciones y falta de mantenimiento estructural. A esto se le suma la escasez de personal calificado, lo que derivó en la acumulación de suciedad y un ambiente caracterizado por un intenso olor a humedad que deteriora las instalaciones e impide el resguardo óptimo de las colecciones de libros y material bibliográfico.
+
+Esta falta de atención técnica y presupuestaria ha generado graves consecuencias…
+        </p>
+               <div class="cta-wrap">
+            <button class="btn-cta" data-open-modal>Ver mas >></button>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== HORARIO | MENU | REDES ===================== -->
+<section class="info-cols" id="visitanos">
+    <div class="container grid3">
+        <div class="col">
+            <h3>Horario</h3>
+            <ul>
+                <li><strong>Lunes a viernes</strong><br>8:00 am – 12:00 pm · 2:00 pm – 6:00 pm</li>
+                <li><strong>Sábados</strong><br>9:00 am – 1:00 pm · hemeroteca bajo solicitud</li>
+            </ul>
+            <p class="note">Operatividad sujeta a condiciones institucionales: confirma por nuestras redes antes de tu visita.</p>
+            <p class="addr">Biblioteca Luis Beltrán Prieto Figueroa, ULA Núcleo Táchira, San Cristóbal – Venezuela.</p>
+        </div>
+        <div class="col">
+            <h3>Menú</h3>
+            <ul class="menu-list">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#visitanos">Visítanos</a></li>
+                <li><a href="#inicio" data-slide="1">Servicios</a></li>
+                <li><a href="#inicio" data-slide="2">Testimonios</a></li>
+                <li><a href="#actua">Actúa</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#" data-open-modal>Regístrate</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Redes Sociales</h3>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span>@bitacora.academica</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@BitacoraULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1 .3-1.5 1.7-1.5H17V2.2C16.4 2.1 15 2 13.6 2 10.6 2 9 3.7 9 7v3H6v4h3v8h4z"/></svg><span>/BitacoraAcademicaULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg><span>Bitácora Académica ULA</span></a>
+            <a class="red-row" href="mailto:bitacora.academica@ula.ve"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>bitacora.academica@ula.ve</span></a>
+        </div>
+    </div>
+</section>
+
+<footer class="bar">
+    <strong>Bitácora Académica</strong> — Investigación: "El acceso a la biblioteca universitaria como derecho humano para el enriquecimiento del saber histórico cultural en el Núcleo Dr. Pedro Rincón Gutiérrez"<br>
+    Universidad de Los Andes · Núcleo Universitario "Dr. Pedro Rincón Gutiérrez" · Táchira – Venezuela · © 2026
+</footer>
+
+<!-- ===================== MODAL ===================== -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <button class="modal-close" data-close-modal aria-label="Cerrar">&times;</button>
+        <form id="formHuella">
+            <h3>Deja tu huella</h3>
+            <p>Regístrate para participar en el foro, las entrevistas o el voluntariado de la bitácora.</p>
+            <label for="nombre">Nombre y apellido *</label>
+            <input id="nombre" type="text" required placeholder="Ej.: María José Andrade">
+            <label for="correo">Correo electrónico *</label>
+            <input id="correo" type="email" required placeholder="tucorreo@ula.ve">
+            <label for="comunidad">Soy...</label>
+            <select id="comunidad">
+                <option>Estudiante</option><option>Docente</option><option>Egresado/a</option><option>Representante</option><option>Otro</option>
+            </select>
+            <label for="mensaje">¿Qué huella quieres dejar? (opcional)</label>
+            <textarea id="mensaje" rows="3" placeholder="Cuéntanos tu experiencia con la biblioteca..."></textarea>
+            <button type="submit" class="btn-cta">Enviar mi huella</button>
+        </form>
+        <div class="modal-success" id="modalSuccess">
+            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+            <h3>¡Gracias por dejar tu huella!</h3>
+            <p>Tu voz suma para que la biblioteca vuelva a ser el corazón académico y cultural del núcleo.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ---------- Slider ---------- */
+    const slides = document.querySelectorAll('.slide');
+    const dotsBox = document.getElementById('dots');
+    let current = 0, timer;
+    slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => { go(i); resetTimer(); });
+        dotsBox.appendChild(d);
+    });
+    const dots = document.querySelectorAll('.dot');
+    function go(n){
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+    function resetTimer(){ clearInterval(timer); timer = setInterval(() => go(current + 1), 6500); }
+    document.getElementById('prevSlide').addEventListener('click', () => { go(current - 1); resetTimer(); });
+    document.getElementById('nextSlide').addEventListener('click', () => { go(current + 1); resetTimer(); });
+    resetTimer();
+
+    /* Enlaces "servicios" y "testimonios": llevan al slider y muestran su slide */
+    document.querySelectorAll('[data-slide]').forEach(a => {
+        a.addEventListener('click', e => {
+            e.preventDefault();
+            document.getElementById('inicio').scrollIntoView({behavior:'smooth'});
+            go(parseInt(a.dataset.slide)); resetTimer();
         });
-    </script>
+    });
 
+    /* ---------- Ver más >> ---------- */
+    const verMas = document.getElementById('verMas');
+    verMas.addEventListener('click', e => {
+        e.preventDefault();
+        const extra = document.getElementById('parExtra');
+        extra.classList.toggle('show');
+        verMas.innerHTML = extra.classList.contains('show') ? 'Ver menos &lt;&lt;' : 'Ver más &gt;&gt;';
+    });
+
+    /* ---------- Modal ---------- */
+    const modal = document.getElementById('modal');
+    document.querySelectorAll('[data-open-modal]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); modal.Autoras.add('open'); }));
+    document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => modal.classList.remove('open')));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+    document.getElementById('formHuella').addEventListener('submit', e => {
+        e.preventDefault();
+        e.target.style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'block';
+    });
+</script>
 </body>
 </html>
