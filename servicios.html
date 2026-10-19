@@ -1,0 +1,490 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Académica | Servicios</title>
+<style>
+    :root{
+        --ink:#0b2545;
+        --blue:#1d5fa7;
+        --blue-dark:#15497f;
+        --blue-light:#9cc4ea;
+        --blue-soft:#eaf1f9;
+        --paper:#f6f9fc;
+        --white:#ffffff;
+        --grey:#4f5b66;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+    ::selection{background:var(--blue);color:#fff;}
+    section{scroll-margin-top:95px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+    .container-article{max-width:900px;margin:0 auto;padding:0 24px;}
+    .justify{text-align:justify;line-height:1.9;color:#3d4a58;}
+    .kicker{display:block;letter-spacing:3px;text-transform:uppercase;font-size:.82rem;font-weight:bold;color:var(--blue);margin-bottom:.8rem;}
+
+    /* NAVBAR */
+    header{position:sticky;top:0;z-index:100;background:rgba(246,249,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid #dce6f2;}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.05rem 0;flex-wrap:wrap;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-size:1.45rem;font-weight:bold;color:var(--ink);text-decoration:none;}
+    .logo svg{width:26px;height:26px;stroke:var(--blue);}
+    .nav-menu{display:flex;gap:1.9rem;list-style:none;flex-wrap:wrap;}
+    .nav-menu a{color:var(--ink);text-decoration:none;font-weight:bold;font-size:1rem;transition:color .25s;}
+    .nav-menu a:hover{color:var(--blue);}
+    .btn-registro{background:var(--blue);color:#fff;border:none;padding:.6rem 1.4rem;font-family:inherit;font-weight:bold;font-size:.95rem;border-radius:3px;cursor:pointer;box-shadow:0 3px 10px rgba(29,95,167,.35);transition:all .25s;}
+    .btn-registro:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* SLIDER SERVICIOS */
+    .slider-servicios{position:relative;height:min(60vh,520px);min-height:380px;overflow:hidden;background:var(--ink);}
+    .slide-s{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-color:var(--ink);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;}
+    .slide-s.active{opacity:1;z-index:1;}
+    .slide-s--1{background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.75)),url('images/servicios-1.jpg');}
+    .slide-s--2{background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.75)),url('images/servicios-2.jpg');}
+    .slide-s--3{background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.75)),url('images/servicios-3.jpg');}
+    .slide-s-content{position:relative;max-width:860px;padding:0 4.5rem;}
+    .slide-s-content .kicker{color:#cfe2f5;}
+    .slide-s-content h2{font-size:clamp(1.8rem,4.2vw,3rem);text-transform:uppercase;letter-spacing:2px;line-height:1.2;text-shadow:2px 2px 6px rgba(11,37,69,.6);}
+    .slide-s-content p{margin-top:1rem;font-size:1.1rem;font-style:italic;color:#e8f0fa;}
+    .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:52px;height:52px;border-radius:50%;border:none;background:rgba(11,37,69,.45);color:#fff;font-size:2rem;line-height:1;cursor:pointer;transition:background .25s;}
+    .slider-arrow:hover{background:var(--blue);}
+    .arrow-left{left:20px;} .arrow-right{right:20px;}
+    .dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5;}
+    .dot{width:11px;height:11px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;transition:background .25s;}
+    .dot.active{background:var(--blue-light);}
+
+    /* EXPLICACIÓN */
+    .explicacion{padding:4.5rem 0 2rem;}
+    .explicacion h2{font-size:2.3rem;text-align:center;margin-bottom:2.2rem;position:relative;padding-bottom:1rem;color:var(--ink);}
+    .explicacion h2::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:3px;background:var(--blue);}
+    .explicacion p{max-width:1020px;margin:0 auto 1.5rem auto;}
+
+    /* AVISO CIERRE TÉCNICO */
+    .aviso-cierre{background:var(--blue-soft);border-left:4px solid var(--blue);padding:1.8rem 2rem;max-width:1020px;margin:1.5rem auto 3rem auto;border-radius:0 4px 4px 0;}
+    .aviso-cierre p{margin-bottom:0;color:var(--ink);font-size:1.05rem;line-height:1.8;}
+    .leer-mas-link{color:var(--blue);font-weight:bold;text-decoration:none;display:inline-block;margin-top:.5rem;}
+    .leer-mas-link:hover{text-decoration:underline;}
+
+    /* PORTALES WEB */
+    .portales{padding:3rem 0 4rem;background:var(--white);border-top:1px solid #dce6f2;}
+    .portales h2{font-size:2.3rem;text-align:center;margin-bottom:3rem;color:var(--ink);}
+    .portales-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+    .portal-card{background:var(--paper);border:1px solid #dce6f2;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+    .portal-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(11,37,69,.15);}
+    .portal-img{aspect-ratio:4/3;background:linear-gradient(135deg,var(--blue-soft) 0%,#dce6f2 100%);display:flex;align-items:center;justify-content:center;}
+    .portal-img img{width:100%;height:100%;object-fit:cover;}
+    .portal-img-placeholder{color:var(--blue);font-size:1.2rem;font-weight:bold;text-transform:uppercase;letter-spacing:1px;text-align:center;padding:0 1rem;}
+    .portal-content{padding:1.2rem;text-align:center;}
+    .portal-content a{color:var(--blue);text-decoration:none;font-weight:bold;font-size:.95rem;transition:color .25s;}
+    .portal-content a:hover{color:var(--blue-dark);}
+
+    /* ARTÍCULO INTEGRADO */
+    .articulo-seccion{padding:4rem 0;background:var(--paper);}
+    .articulo-seccion h2{font-size:2.2rem;text-align:center;margin-bottom:2.2rem;color:var(--ink);}
+    .articulo-caja{background:var(--white);padding:2.5rem 3rem;border:1px solid #dce6f2;border-radius:4px;box-shadow:0 10px 30px rgba(11,37,69,.05);}
+    .articulo-caja p{margin-bottom:1.5rem;font-size:1.05rem;line-height:1.9;color:#3d4a58;}
+
+    /* PREGUNTAS FRECUENTES Y MOTIVOS */
+    .faq{padding:4rem 0;background:var(--white);border-top:1px solid #dce6f2;}
+    .faq h2{font-size:2.3rem;text-align:center;margin-bottom:1rem;color:var(--ink);}
+    .faq-sub{text-align:center;color:var(--grey);margin-bottom:3rem;font-size:1.05rem;}
+    .faq-container{max-width:900px;margin:0 auto;}
+    .faq-item{background:var(--paper);border:1px solid #dce6f2;margin-bottom:1rem;border-radius:3px;overflow:hidden;}
+    .faq-question{width:100%;padding:1.3rem 1.8rem;background:var(--blue-soft);border:none;text-align:left;font-family:inherit;font-size:1.05rem;font-weight:bold;color:var(--ink);cursor:pointer;transition:background .25s;display:flex;justify-content:space-between;align-items:center;}
+    .faq-question:hover{background:#d4e4f5;}
+    .faq-question::after{content:'+';font-size:1.5rem;color:var(--blue);transition:transform .3s;}
+    .faq-question.active::after{content:'−';}
+    .faq-answer{max-height:0;overflow:hidden;transition:max-height .3s ease-out;}
+    .faq-answer p{padding:1.3rem 1.8rem;line-height:1.8;color:#3d4a58;}
+
+    /* AFECTADOS Y SLIDER FOTO ANTES Y AHORA */
+    .afectados-sec{padding:4rem 0;}
+    .afectados-sec p{max-width:1020px;margin:0 auto 2.5rem auto;font-size:1.1rem;line-height:1.9;text-align:center;color:var(--ink);}
+    
+    .slider-comparativa{position:relative;max-width:900px;margin:0 auto 4rem auto;aspect-ratio:16/9;overflow:hidden;background:var(--ink);border:1px solid var(--blue-light);box-shadow:0 15px 35px rgba(11,37,69,.2);border-radius:4px;}
+    .slide-comp{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;display:flex;align-items:center;justify-content:center;color:#fff;}
+    .slide-comp.active{opacity:1;}
+    .slide-comp-placeholder{text-align:center;padding:2rem;}
+    .slide-comp-placeholder svg{width:70px;height:70px;stroke:var(--blue-light);margin-bottom:1rem;}
+    .slide-comp-placeholder h3{font-size:1.5rem;margin-bottom:.5rem;text-transform:uppercase;letter-spacing:1px;}
+
+    /* CUESTIONARIO / ESTADÍSTICA */
+    .cuestionario{padding:4rem 0;background:linear-gradient(135deg, #0b2545 0%, #15497f 100%);color:#fff;}
+    .cuestionario h2{font-size:2.3rem;text-align:center;margin-bottom:2.5rem;color:var(--blue-light);text-transform:uppercase;letter-spacing:1px;}
+    .quest-container{max-width:800px;margin:0 auto;display:flex;flex-direction:column;gap:2rem;}
+    .quest-card{background:rgba(255,255,255,.07);border:1px solid rgba(156,196,234,.3);padding:2rem;border-radius:6px;}
+    .quest-card h3{font-size:1.2rem;margin-bottom:1.2rem;color:#fff;}
+    .options-group{display:flex;gap:1rem;flex-wrap:wrap;}
+    .opt-btn{background:transparent;border:2px solid var(--blue-light);color:#fff;padding:.6rem 1.5rem;font-family:inherit;font-weight:bold;border-radius:3px;cursor:pointer;transition:all .25s;}
+    .opt-btn:hover, .opt-btn.selected{background:var(--blue-light);color:var(--ink);}
+
+    /* CONTRIBUYE / FINAL DE PÁGINA */
+    .contribuye{padding:5rem 0;background:var(--white);text-align:center;}
+    .contribuye-box{max-width:900px;margin:0 auto;padding:0 24px;}
+    .contribuye h2{font-size:2.3rem;margin-bottom:1.5rem;color:var(--ink);text-transform:uppercase;letter-spacing:1px;}
+    .contribuye p{font-size:1.15rem;line-height:1.9;color:#3d4a58;margin-bottom:2rem;}
+    .btn-cta{background:var(--blue);color:#fff;border:none;padding:1rem 2.5rem;font-family:inherit;font-weight:bold;font-size:1.1rem;border-radius:3px;cursor:pointer;box-shadow:0 5px 16px rgba(29,95,167,.4);transition:all .25s;text-decoration:none;display:inline-block;}
+    .btn-cta:hover{background:var(--blue-dark);transform:translateY(-3px);}
+
+    /* HORARIO | MENU | REDES */
+    .info-cols{background:var(--white);border-top:1px solid #dce6f2;padding:4rem 0;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);}
+    .col{padding:0 2.6rem;text-align:center;}
+    .col + .col{border-left:2px solid var(--ink);}
+    .col h3{font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.6rem;color:var(--ink);}
+    .col ul{list-style:none;}
+    .col li{margin-bottom:1rem;color:var(--grey);}
+    .col li strong{color:var(--ink);}
+    .note{font-size:.85rem;color:#7d8b99;font-style:italic;margin-top:1rem;}
+    .addr{font-size:.9rem;color:var(--grey);margin-top:.8rem;}
+    .menu-list li{margin-bottom:.7rem;}
+    .menu-list a{color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .menu-list a:hover{color:var(--blue);}
+    .red-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1rem;color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .red-row:hover{color:var(--blue);}
+    .red-row svg{width:20px;height:20px;fill:var(--blue);flex-shrink:0;}
+
+    footer.bar{background:var(--ink);color:#b9d2ec;text-align:center;padding:1.6rem 24px;font-size:.85rem;line-height:1.8;}
+    footer.bar strong{color:var(--blue-light);}
+
+    @media (max-width:980px){
+        .portales-grid{grid-template-columns:1fr;}
+        .grid3{grid-template-columns:1fr;}
+        .col{padding:0;}
+        .col + .col{border-left:none;border-top:2px solid var(--ink);margin-top:2.2rem;padding-top:2.2rem;}
+        .slide-s-content{padding:0 3.5rem;}
+    }
+    @media (max-width:640px){
+        .nav{justify-content:center;}
+        .nav-menu{gap:1rem;justify-content:center;font-size:.92rem;}
+        .slider-servicios{height:50vh;}
+    }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+    <div class="container nav">
+        <a class="logo" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            Bitácora Académica
+        </a>
+        <ul class="nav-menu">
+            <li><a href="index.html">inicio</a></li>
+            <li><a href="#visitanos">visítanos</a></li>
+            <li><a href="#servicios">servicios</a></li>
+            <li><a href="testimonios.html">testimonios</a></li>
+            <li><a href="actua.html">actúa</a></li>
+            <li><a href="nosotros.html">nosotros</a></li>
+        </ul>
+        <button class="btn-registro">Regístrate</button>
+    </div>
+</header>
+
+<!-- SLIDER SERVICIOS -->
+<section class="slider-servicios" id="servicios" aria-label="Slider de servicios">
+    <div class="slide-s slide-s--1 active">
+        <div class="slide-s-content">
+            <span class="kicker">Servicios Bibliotecarios SERBIULA</span>
+            <h2>Un espacio vivo al servicio del saber</h2>
+            <p>Préstamo circulante · salas de estudio · hemeroteca · archivo histórico · investigación y docencia.</p>
+        </div>
+    </div>
+    <div class="slide-s slide-s--2">
+        <div class="slide-s-content">
+            <span class="kicker">Acceso al Conocimiento</span>
+            <h2>Recursos para la formación académica</h2>
+            <p>Libros · tesis · revistas especializadas · material digital · consulta en sala · préstamo interbibliotecario.</p>
+        </div>
+    </div>
+    <div class="slide-s slide-s--3">
+        <div class="slide-s-content">
+            <span class="kicker">Cultura e Identidad</span>
+            <h2>Preservando el saber histórico cultural</h2>
+            <p>Talleres de capacitación · inducción informacional · exposiciones · conferencias universitarias.</p>
+        </div>
+    </div>
+    <button class="slider-arrow arrow-left" id="prevServ" aria-label="Anterior">&#10094;</button>
+    <button class="slider-arrow arrow-right" id="nextServ" aria-label="Siguiente">&#10095;</button>
+    <div class="dots" id="dotsServ"></div>
+</section>
+
+<!-- EXPLICACIÓN Y SERVICIOS SERBIULA -->
+<section class="explicacion">
+    <div class="container">
+        <h2>Servicios Bibliotecarios de la ULA (SERBIULA)</h2>
+        <p class="justify">
+            Los Servicios Bibliotecarios de la Universidad de Los Andes (SERBIULA) constituyen la estructura institucional que coordina, gestiona y supervisa las bibliotecas del sistema ULA, asegurando el acceso al conocimiento y a la información académica para toda la comunidad universitaria. Su función principal es ofrecer recursos bibliográficos, tecnológicos y servicios de apoyo a la investigación y docencia, garantizando la disponibilidad de materiales actualizados y la alfabetización informacional de los usuarios.
+        </p>
+        <p class="justify">
+            De esta manera ofrece servicios específicos como: préstamo en sala para todo público, préstamo circulante para los miembros de la comunidad universitaria, préstamo interbibliotecario, solicitud y envío de artículos de revistas, fotocopiado y escaneado de imágenes y charlas de inducción y talleres de capacitación.
+        </p>
+
+        <!-- AVISO DE CIERRE TÉCNICO -->
+        <div class="aviso-cierre">
+            <p>
+                <strong>Estado actual:</strong> Actualmente, estos servicios que se ofrecían en todos los núcleos universitarios de la Universidad de los Andes, ya no se ofrecen en la biblioteca Luis Beltrán Prieto Figueroa, por motivos del <strong>“cierre técnico”</strong> reduciendo sus servicios únicamente a la parte administrativa y solvencias académicas.
+            </p>
+            <a href="#articuloDetalle" class="leer-mas-link">Leer más sobre la problemática y su impacto &gt;&gt;</a>
+        </div>
+    </div>
+</section>
+
+<!-- PORTALES WEB -->
+<section class="portales" id="portales">
+    <div class="container">
+        <h2>Portales web</h2>
+        <div class="portales-grid">
+            <div class="portal-card">
+                <div class="portal-img">
+                    <span class="portal-img-placeholder">Catálogo en línea</span>
+                </div>
+                <div class="portal-content">
+                    <a href="http://www.serbi.ula.ve" target="_blank" rel="noopener">SERBIULA Central →</a>
+                </div>
+            </div>
+            <div class="portal-card">
+                <div class="portal-img">
+                    <span class="portal-img-placeholder">Repositorio digital ULA</span>
+                </div>
+                <div class="portal-content">
+                    <a href="http://www.serbi.ula.ve/tachira" target="_blank" rel="noopener">Portal Núcleo Táchira →</a>
+                </div>
+            </div>
+            <div class="portal-card">
+                <div class="portal-img">
+                    <span class="portal-img-placeholder">Hemeroteca virtual</span>
+                </div>
+                <div class="portal-content">
+                    <a href="#" target="_blank" rel="noopener">Recursos Digitales →</a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ARTÍCULO DETALLADO -->
+<section class="articulo-seccion" id="articuloDetalle">
+    <div class="container-article">
+        <h2>Detrás de puertas cerradas: impacto y deterioro de la biblioteca universitaria</h2>
+        <div class="articulo-caja">
+            <p>
+                La biblioteca universitaria constituye un espacio esencial dentro del ámbito académico para la organización, preservación y difusión de información y conocimiento. Sin embargo, en la biblioteca “Luis Beltrán Prieto Figueroa” del núcleo universitario Dr. Pedro Rincón Gutiérrez de la Universidad de Los Andes, esta realidad se ve afectada por la crisis que atraviesa. Desde el año 2019, este espacio padece un cierre técnico originado por una compleja combinación de factores.
+            </p>
+            <p>
+                Entre las principales causas de esta inoperatividad destacan la falta de mantenimiento continuo y la insuficiencia de recursos financieros por la situación del país que afectan de manera económica estos espacios, situación que desencadenó un severo deterioro estructural reflejado en filtraciones, canales de agua oxidados, ventanas dañadas, así como en la caída de fragmentos de la edificación como consecuencia de las mismas filtraciones y falta de mantenimiento estructural. A esto se le suma la escasez de personal calificado, lo que derivó en la acumulación de suciedad y un ambiente caracterizado por un intenso olor a humedad que deteriora las instalaciones e impide el resguardo óptimo de las colecciones de libros y material bibliográfico.
+            </p>
+            <p>
+                Esta falta de atención técnica y presupuestaria ha generado graves consecuencias, tal como la presencia constante de humedad y la proliferación de agentes contaminantes provocaron daños irreversibles en algunas colecciones de libros, haciendo que muchos de ellos quedaran totalmente inhabilitados para su consulta y representando además un riesgo para la salud de los usuarios. Asimismo, el cierre interrumpido despojó a la comunidad universitaria de recursos clave para su desarrollo, tales como equipos de computación, áreas de estudio, acervo impreso, materiales didácticos e iniciativas de promoción cultural como los concursos de lectura.
+            </p>
+            <p>
+                Más allá del impacto académico directo, la inaccesibilidad a este espacio representa una vulneración sistemática del derecho humano al acceso a la información y al conocimiento, consagrado en instrumentos internacionales como el artículo 19 de la Declaración Universal de Derechos Humanos. Al impedir que docentes y estudiantes puedan consultar libremente las fuentes requeridas para la investigación, la enseñanza y el desarrollo del pensamiento crítico, se obstaculiza el ejercicio pleno de los derechos a la educación y a la cultura. Esta vulneración no solo condiciona la calidad de la formación profesional y limita el desempeño docente, sino que arriesga la pérdida permanente de un patrimonio fundamental para el enriquecimiento del saber histórico-cultural y amenaza con normalizar la falta de acceso a la información y a estos espacios del saber dentro del entorno universitario.
+            </p>
+            <p>
+                Como propuesta ante este problema nace nuestra página web. Su objetivo principal es funcionar como una plataforma comunicacional en internet para dar a conocer lo que acontece en este espacio, explicar por qué cerrar la biblioteca nos afecta a todos y unir a estudiantes y profesores para buscar ideas con la finalidad de recuperar la biblioteca de la universidad. De esta manera, el sitio web busca que la biblioteca vuelva a abrir sus puertas y todos puedan hacer uso de estos espacios como parte de su derecho como estudiante y docente de la universidad.
+            </p>
+        </div>
+    </div>
+</section>
+
+<!-- PREGUNTAS FRECUENTES / MOTIVOS DEL CIERRE TÉCNICO -->
+<section class="faq" id="faq">
+    <div class="container">
+        <h2>Motivos de su actual “cierre técnico”</h2>
+        <p class="faq-sub">Haz clic en cada motivo para conocer en detalle las causas que originaron la inoperatividad de la biblioteca.</p>
+        <div class="faq-container">
+            <div class="faq-item">
+                <button class="faq-question">Falta de mantenimiento</button>
+                <div class="faq-answer">
+                    <p>La infraestructura de la biblioteca ha sufrido un deterioro significativo y continuo debido a la falta de mantenimiento preventivo y correctivo adecuado. Techos, ventanas y canales de agua totalmente oxidados han generado constantes filtraciones y goteras, además del desprendimiento de fragmentos de techo. Esta humedad persistente tiene como consecuencia la formación de hongos y un fuerte olor a encerrado, provocando daños irreparables e irrecuperables en gran parte de los libros, documentos históricos y recursos bibliográficos, además de representar un riesgo latente para la salud de quienes ingresan.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Ausencia de personal calificado</button>
+                <div class="faq-answer">
+                    <p>La falta de personal capacitado e idóneo ha impedido que la biblioteca funcione de manera efectiva y operativa. La deserción de especialistas, sumada a la imposibilidad de contratar o formar un equipo adecuado para la preservación de los libros, la atención al usuario y la gestión del espacio, ha tornado insostenible la prestación de los servicios esenciales que la comunidad universitaria requiere, como el préstamo de libros, el préstamo de computadoras y espacios de estudio, así como la capacitación de estudiantes en la búsqueda en enciclopedias y el cuidado de los libros.</p>
+                </div>
+            </div>
+            <div class="faq-item">
+                <button class="faq-question">Problemas administrativos</button>
+                <div class="faq-answer">
+                    <p>La gestión administrativa de la biblioteca ha sido deficiente e inerte ante la crisis, que ha acelerado su progresivo abandono y cierre. La falta de asignación e inversión de presupuestos para la conservación del espacio, junto con la ausencia de planes de contingencia ante las fallas operativas y la desatención institucional a las necesidades prioritarias de la biblioteca, ha llevado a una situación insostenible donde el recinto ha perdido su propósito original.</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- AFECTADOS Y COMPARATIVA -->
+<section class="afectados-sec">
+    <div class="container">
+        <p class="justify" style="max-width:1020px;margin:0 auto 2.5rem auto;">
+            La biblioteca, que debería ser un centro de conocimiento y aprendizaje, se ha convertido en un espacio inactivo, utilizado solo para labores administrativas. Esto ha limitado gravemente el acceso a la información y recursos educativos para la comunidad universitaria, siendo los principales afectados por la situación: estudiantes, docentes, investigadores y la comunidad universitaria en general.
+        </p>
+
+        <!-- SLIDER FOTO ANTES Y AHORA -->
+        <div class="slider-comparativa" id="sliderComparativa">
+            <div class="slide-comp active">
+                <div class="slide-comp-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <h3>Biblioteca en su funcionamiento activo</h3>
+                    <p>&lt; Desliza para ver el antes y el ahora &gt;</p>
+                </div>
+            </div>
+            <div class="slide-comp">
+                <div class="slide-comp-placeholder">
+                    <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                    <h3>Estado actual: Deterioro y cierre técnico</h3>
+                    <p>&lt; Desliza para ver el antes y el ahora &gt;</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CUESTIONARIO (ESTADÍSTICA) -->
+<section class="cuestionario" id="cuestionario">
+    <div class="container">
+        <h2>Cuestionario y percepción estudiantil</h2>
+        <div class="quest-container">
+            <div class="quest-card">
+                <h3>¿Conocías esta problemática?</h3>
+                <div class="options-group">
+                    <button class="opt-btn" onclick="selectOpt(this)">Sí</button>
+                    <button class="opt-btn" onclick="selectOpt(this)">No</button>
+                    <button class="opt-btn" onclick="selectOpt(this)">Muy poco</button>
+                </div>
+            </div>
+            <div class="quest-card">
+                <h3>¿Alguna vez necesitaste de este espacio y no pudiste utilizarlo?</h3>
+                <div class="options-group">
+                    <button class="opt-btn" onclick="selectOpt(this)">Sí</button>
+                    <button class="opt-btn" onclick="selectOpt(this)">No</button>
+                </div>
+            </div>
+            <div class="quest-card">
+                <h3>¿Te gustaría recuperar este espacio?</h3>
+                <div class="options-group">
+                    <button class="opt-btn" onclick="selectOpt(this)">Sí</button>
+                    <button class="opt-btn" onclick="selectOpt(this)">No</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ¿CÓMO PUEDES CONTRIBUIR? (FINAL DE PÁGINA) -->
+<section class="contribuye" id="contribuye">
+    <div class="contribuye-box">
+        <h2>¿Cómo puedes contribuir?</h2>
+        <p>
+            <strong>Tu Voz También Reconstruye la Biblioteca</strong><br>
+            La recuperación de la biblioteca "Luis Beltrán Prieto Figueroa" não depende solo de diagnosticar su deterioro, sino de la fuerza activa de la comunidad estudiantil. Cada testimonio, propuesta y gesto de apoyo cuenta para transformar este espacio inactivo en el centro dinámico de conocimiento que la Universidad de los Andes merece. Sumar tu voz a este movimiento es defender el derecho colectivo al acceso a la información, al conocimiento y al enriquecimiento histórico y cultural de nuestro núcleo.
+        </p>
+        <p style="font-size:1.05rem;color:#5a6b7c;margin-bottom:2rem;">
+            Existen diversas formas en las que puedes involucrarte y ser parte de la solución, desde visibilizar la problemática hasta participar en iniciativas de recuperación.
+        </p>
+        <a href="actua.html" class="btn-cta">Descubre cómo puedes aportar y dejar tu huella &gt;&gt;</a>
+    </div>
+</section>
+
+<!-- HORARIO | MENU | REDES -->
+<section class="info-cols" id="visitanos">
+    <div class="container grid3">
+        <div class="col">
+            <h3>Horario</h3>
+            <ul>
+                <li><strong>Lunes a viernes</strong><br>8:00 am – 12:00 pm · 2:00 pm – 6:00 pm</li>
+                <li><strong>Sábados</strong><br>9:00 am – 1:00 pm · hemeroteca bajo solicitud</li>
+            </ul>
+            <p class="note">Operatividad sujeta a condiciones institucionales: confirma por nuestras redes antes de tu visita.</p>
+            <p class="addr">Biblioteca Luis Beltrán Prieto Figueroa, ULA Núcleo Táchira, San Cristóbal – Venezuela.</p>
+        </div>
+        <div class="col">
+            <h3>Menú</h3>
+            <ul class="menu-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#visitanos">Visítanos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#portales">Portales web</a></li>
+                <li><a href="#faq">Motivos del Cierre</a></li>
+                <li><a href="#cuestionario">Cuestionario</a></li>
+                <li><a href="#contribuye">Cómo Contribuir</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Redes Sociales</h3>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span>@bitacora.academica</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@BitacoraULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1 .3-1.5 1.7-1.5H17V2.2C16.4 2.1 15 2 13.6 2 10.6 2 9 3.7 9 7v3H6v4h3v8h4z"/></svg><span>/BitacoraAcademicaULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg><span>Bitácora Académica ULA</span></a>
+            <a class="red-row" href="mailto:bitacora.academica@ula.ve"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>bitacora.academica@ula.ve</span></a>
+        </div>
+    </div>
+</section>
+
+<footer class="bar">
+    <strong>Bitácora Académica</strong> — Investigación: "El acceso a la biblioteca universitaria como derecho humano para el enriquecimiento del saber histórico cultural en el Núcleo Dr. Pedro Rincón Gutiérrez"<br>
+    Universidad de Los Andes · Núcleo Universitario "Dr. Pedro Rincón Gutiérrez" · Táchira – Venezuela · © 2026
+</footer>
+
+<script>
+    /* Slider Servicios */
+    const slidesS = document.querySelectorAll('.slide-s');
+    const dotsServ = document.getElementById('dotsServ');
+    let currentS = 0, timerS;
+    slidesS.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => { goS(i); resetTimerS(); });
+        dotsServ.appendChild(d);
+    });
+    const dotsS = document.querySelectorAll('#dotsServ .dot');
+    function goS(n){
+        slidesS[currentS].classList.remove('active');
+        dotsS[currentS].classList.remove('active');
+        currentS = (n + slidesS.length) % slidesS.length;
+        slidesS[currentS].classList.add('active');
+        dotsS[currentS].classList.add('active');
+    }
+    function resetTimerS(){ clearInterval(timerS); timerS = setInterval(() => goS(currentS + 1), 6500); }
+    document.getElementById('prevServ').addEventListener('click', () => { goS(currentS - 1); resetTimerS(); });
+    document.getElementById('nextServ').addEventListener('click', () => { goS(currentS + 1); resetTimerS(); });
+    resetTimerS();
+
+    /* FAQ Accordion (Motivos del Cierre) */
+    document.querySelectorAll('.faq-question').forEach(button => {
+        button.addEventListener('click', () => {
+            const answer = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+            
+            document.querySelectorAll('.faq-question').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.faq-answer').forEach(a => a.style.maxHeight = null);
+            
+            if (!isActive) {
+                button.classList.add('active');
+                answer.style.maxHeight = answer.scrollHeight + 'px';
+            }
+        });
+    });
+
+    /* Slider Comparativa (Antes y Ahora) */
+    const slidesComp = document.querySelectorAll('.slide-comp');
+    let currentComp = 0;
+    setInterval(() => {
+        slidesComp[currentComp].classList.remove('active');
+        currentComp = (currentComp + 1) % slidesComp.length;
+        slidesComp[currentComp].classList.add('active');
+    }, 4500);
+
+    /* Cuestionario Botones Selección */
+    function selectOpt(btn) {
+        const group = btn.parentElement;
+        group.querySelectorAll('.opt-btn').forEach(b => b.classList.remove('selected'));
+        btn.classList.add('selected');
+    }
+</script>
+</body>
+</html>
