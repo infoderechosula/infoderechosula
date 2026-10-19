@@ -1,0 +1,319 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Académica | La biblioteca es un derecho</title>
+<style>
+    :root{
+        --ink:#0b2545;
+        --blue:#1d5fa7;
+        --blue-dark:#15497f;
+        --blue-light:#9cc4ea;
+        --blue-soft:#eaf1f9;
+        --paper:#f6f9fc;
+        --white:#ffffff;
+        --grey:#4f5b66;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+    ::selection{background:var(--blue);color:#fff;}
+    section{scroll-margin-top:95px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+    .justify{text-align:justify;line-height:1.9;color:#3d4a58;}
+    .kicker{display:block;letter-spacing:3px;text-transform:uppercase;font-size:.82rem;font-weight:bold;color:var(--blue);margin-bottom:.8rem;}
+
+    /* NAVBAR */
+    header{position:sticky;top:0;z-index:100;background:rgba(246,249,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid #dce6f2;}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.05rem 0;flex-wrap:wrap;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-size:1.45rem;font-weight:bold;color:var(--ink);text-decoration:none;}
+    .logo svg{width:26px;height:26px;stroke:var(--blue);}
+    .nav-menu{display:flex;gap:1.9rem;list-style:none;flex-wrap:wrap;}
+    .nav-menu a{color:var(--ink);text-decoration:none;font-weight:bold;font-size:1rem;transition:color .25s;}
+    .nav-menu a:hover{color:var(--blue);}
+    .btn-registro{background:var(--blue);color:#fff;border:none;padding:.6rem 1.4rem;font-family:inherit;font-weight:bold;font-size:.95rem;border-radius:3px;cursor:pointer;box-shadow:0 3px 10px rgba(29,95,167,.35);transition:all .25s;}
+    .btn-registro:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* SLIDER */
+    .slider{position:relative;height:min(72vh,640px);min-height:430px;overflow:hidden;background:var(--ink);}
+    .slide{position:absolute;inset:0;opacity:0;transition:opacity .9s ease;background-color:var(--ink);background-size:cover;background-position:center;display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;}
+    .slide.active{opacity:1;z-index:1;}
+    .slide--1{background-image:linear-gradient(rgba(11,37,69,.45),rgba(11,37,69,.68)),url('images/slider-1.jpg');}
+    .slide--2{background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.7)),url('images/slider-2.jpg');}
+    .slide--3{background-image:linear-gradient(rgba(11,37,69,.35),rgba(11,37,69,.6)),url('images/slider-3.jpg');}
+    .slide-content{position:relative;max-width:860px;padding:0 4.5rem;}
+    .slide-content .kicker{color:#cfe2f5;}
+    .slide-content h2{font-size:clamp(1.9rem,4.6vw,3.2rem);text-transform:uppercase;letter-spacing:2px;line-height:1.2;text-shadow:2px 2px 6px rgba(11,37,69,.6);}
+    .slide-content p{margin-top:1rem;font-size:1.15rem;font-style:italic;color:#e8f0fa;}
+    .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:52px;height:52px;border-radius:50%;border:none;background:rgba(11,37,69,.45);color:#fff;font-size:2rem;line-height:1;cursor:pointer;transition:background .25s;}
+    .slider-arrow:hover{background:var(--blue);}
+    .arrow-left{left:20px;} .arrow-right{right:20px;}
+    .dots{position:absolute;bottom:18px;left:50%;transform:translateX(-50%);display:flex;gap:10px;z-index:5;}
+    .dot{width:11px;height:11px;border-radius:50%;border:none;background:rgba(255,255,255,.45);cursor:pointer;transition:background .25s;}
+    .dot.active{background:var(--blue-light);}
+
+    /* TÍTULO CREATIVO */
+    .titulo-creativo{padding:4.5rem 0 3rem;text-align:center;}
+    .titulo-creativo h2{font-size:2.3rem;margin-bottom:2rem;color:var(--ink);}
+    .titulo-creativo p{max-width:1020px;margin:0 auto 2rem;text-align:justify;line-height:1.9;color:#3d4a58;}
+    .problematica-pregunta{display:flex;align-items:center;justify-content:center;gap:2rem;flex-wrap:wrap;margin-top:2rem;}
+    .problematica-pregunta h3{font-size:1.5rem;color:var(--ink);}
+    .btn-si-no{display:flex;gap:0;}
+    .btn-si-no button{padding:.8rem 2.5rem;border:2px solid var(--blue);background:var(--blue-soft);color:var(--ink);font-family:inherit;font-weight:bold;font-size:1rem;cursor:pointer;transition:all .25s;}
+    .btn-si-no button:first-child{border-radius:3px 0 0 3px;}
+    .btn-si-no button:last-child{border-radius:0 3px 3px 0;border-left:none;}
+    .btn-si-no button:hover,.btn-si-no button.active{background:var(--blue);color:#fff;}
+
+    /* BIBLIOTECA ACTUALIDAD */
+    .biblioteca-actualidad{padding:3rem 0;}
+    .biblioteca-actualidad .imagen-container{max-width:1100px;margin:0 auto;aspect-ratio:16/9;background:linear-gradient(135deg,var(--blue-soft) 0%,#dce6f2 100%);display:flex;align-items:center;justify-content:center;border:1px solid var(--blue-light);box-shadow:0 10px 30px rgba(11,37,69,.15);}
+    .biblioteca-actualidad .imagen-container img{width:100%;height:100%;object-fit:cover;}
+    .biblioteca-actualidad .imagen-placeholder{text-align:center;color:var(--blue);}
+    .biblioteca-actualidad .imagen-placeholder svg{width:80px;height:80px;stroke:var(--blue-light);margin-bottom:1rem;}
+    .biblioteca-actualidad .imagen-placeholder p{font-size:1.2rem;font-weight:bold;text-transform:uppercase;letter-spacing:2px;}
+
+    /* ARTÍCULOS RELACIONADOS */
+    .articulos{padding:4rem 0;background:var(--white);border-top:1px solid #dce6f2;}
+    .articulos h2{font-size:2.3rem;text-align:center;margin-bottom:3rem;color:var(--ink);}
+    .articulos-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2rem;}
+    .articulo-card{background:var(--paper);border:1px solid #dce6f2;overflow:hidden;transition:transform .3s,box-shadow .3s;}
+    .articulo-card:hover{transform:translateY(-5px);box-shadow:0 10px 25px rgba(11,37,69,.15);}
+    .articulo-img{aspect-ratio:4/3;background:linear-gradient(135deg,var(--blue-soft) 0%,#dce6f2 100%);display:flex;align-items:center;justify-content:center;}
+    .articulo-img img{width:100%;height:100%;object-fit:cover;}
+    .articulo-img-placeholder{color:var(--blue);font-size:1.5rem;font-weight:bold;text-transform:uppercase;letter-spacing:2px;}
+    .articulo-content{padding:1.5rem;}
+    .articulo-content p{font-size:.9rem;color:#3d4a58;line-height:1.7;margin-bottom:1rem;}
+    .articulo-content a{color:var(--blue);text-decoration:none;font-weight:bold;font-size:.9rem;transition:color .25s;}
+    .articulo-content a:hover{color:var(--blue-dark);}
+
+    /* HORARIO | MENU | REDES */
+    .info-cols{background:var(--white);border-top:1px solid #dce6f2;padding:4rem 0;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);}
+    .col{padding:0 2.6rem;text-align:center;}
+    .col + .col{border-left:2px solid var(--ink);}
+    .col h3{font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.6rem;color:var(--ink);}
+    .col ul{list-style:none;}
+    .col li{margin-bottom:1rem;color:var(--grey);}
+    .col li strong{color:var(--ink);}
+    .note{font-size:.85rem;color:#7d8b99;font-style:italic;margin-top:1rem;}
+    .addr{font-size:.9rem;color:var(--grey);margin-top:.8rem;}
+    .menu-list li{margin-bottom:.7rem;}
+    .menu-list a{color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .menu-list a:hover{color:var(--blue);}
+    .red-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1rem;color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .red-row:hover{color:var(--blue);}
+    .red-row svg{width:20px;height:20px;fill:var(--blue);flex-shrink:0;}
+
+    footer.bar{background:var(--ink);color:#b9d2ec;text-align:center;padding:1.6rem 24px;font-size:.85rem;line-height:1.8;}
+    footer.bar strong{color:var(--blue-light);}
+
+    @media (max-width:980px){
+        .articulos-grid{grid-template-columns:1fr;}
+        .grid3{grid-template-columns:1fr;}
+        .col{padding:0;}
+        .col + .col{border-left:none;border-top:2px solid var(--ink);margin-top:2.2rem;padding-top:2.2rem;}
+        .slide-content{padding:0 3.5rem;}
+        .problematica-pregunta{flex-direction:column;}
+    }
+    @media (max-width:640px){
+        .nav{justify-content:center;}
+        .nav-menu{gap:1rem;justify-content:center;font-size:.92rem;}
+        .slider{height:60vh;}
+    }
+</style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<header>
+    <div class="container nav">
+        <a class="logo" href="#inicio">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            Bitácora Académica
+        </a>
+        <ul class="nav-menu">
+            <li><a href="#inicio">inicio</a></li>
+            <li><a href="#visitanos">visítanos</a></li>
+            <li><a href="#servicios">servicios</a></li>
+            <li><a href="#testimonios">testimonios</a></li>
+            <li><a href="#actua">actúa</a></li>
+            <li><a href="#nosotros">Nosotros</a></li>
+        </ul>
+        <button class="btn-registro">Regístrate</button>
+    </div>
+</header>
+
+<!-- SLIDER -->
+<section class="slider" id="inicio" aria-label="Slider de imágenes">
+    <div class="slide slide--1 active">
+        <div class="slide-content">
+            <span class="kicker">ULA · Núcleo "Dr. Pedro Rincón Gutiérrez" — Táchira</span>
+            <h2>Biblioteca Luis Beltrán Prieto Figueroa</h2>
+            <p>Guardiana del saber histórico y cultural de nuestra comunidad universitaria.</p>
+        </div>
+    </div>
+    <div class="slide slide--2">
+        <div class="slide-content">
+            <span class="kicker">Servicios</span>
+            <h2>Un espacio vivo al servicio del saber</h2>
+            <p>Préstamo de material · salas de estudio · hemeroteca y archivo histórico · internet · talleres culturales.</p>
+        </div>
+    </div>
+    <div class="slide slide--3">
+        <div class="slide-content">
+            <span class="kicker">Testimonios</span>
+            <h2>"La biblioteca no es un lujo: es un derecho"</h2>
+            <p>Voces de estudiantes y docentes que día a día sienten el peso de sus puertas cerradas.</p>
+        </div>
+    </div>
+    <button class="slider-arrow arrow-left" id="prevSlide" aria-label="Anterior">&#10094;</button>
+    <button class="slider-arrow arrow-right" id="nextSlide" aria-label="Siguiente">&#10095;</button>
+    <div class="dots" id="dots"></div>
+</section>
+
+<!-- TÍTULO CREATIVO -->
+<section class="titulo-creativo" id="problematica">
+    <div class="container">
+        <h2>El acceso a la biblioteca: un derecho vulnerado</h2>
+        <p class="justify">
+            La biblioteca universitaria Luis Beltrán Prieto Figueroa, del Núcleo "Dr. Pedro Rincón Gutiérrez" de la Universidad de Los Andes, atraviesa un prolongado periodo de inactividad que ha limitado el acceso de estudiantes y docentes al material físico y digital que sostiene la vida académica. Lo que a simple vista parece un cierre administrativo es, en el fondo, la vulneración de un derecho humano: el acceso a la información y al conocimiento. Cada sala clausurada, cada equipo desconectado y cada préstamo interrumpido debilitan la formación profesional, la práctica pedagógica y la preservación del saber histórico cultural que identifica a la comunidad tachirense.
+        </p>
+        <div class="problematica-pregunta">
+            <h3>¿Conocías esta problemática?</h3>
+            <div class="btn-si-no">
+                <button data-respuesta="si">SÍ</button>
+                <button data-respuesta="no">NO</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- BIBLIOTECA ACTUALIDAD -->
+<section class="biblioteca-actualidad">
+    <div class="container">
+        <div class="imagen-container">
+            <!-- Reemplaza esto con la imagen real de la biblioteca -->
+            <div class="imagen-placeholder">
+                <svg viewBox="0 0 24 24" fill="none" stroke-width="1.5"><rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/></svg>
+                <p>Biblioteca Actualidad</p>
+                <small style="font-size:.8rem;color:#7d8b99;margin-top:.5rem;display:block;">Imagen de la biblioteca en su estado actual</small>
+            </div>
+            <!-- <img src="images/biblioteca-actualidad.jpg" alt="Estado actual de la biblioteca universitaria"> -->
+        </div>
+    </div>
+</section>
+
+<!-- ARTÍCULOS RELACIONADOS -->
+<section class="articulos" id="articulos">
+    <div class="container">
+        <h2>Artículos relacionados</h2>
+        <div class="articulos-grid">
+            <article class="articulo-card">
+                <div class="articulo-img">
+                    <span class="articulo-img-placeholder">Imagen</span>
+                </div>
+                <div class="articulo-content">
+                    <p>La biblioteca universitaria como espacio de construcción del saber histórico cultural: una perspectiva desde la teoría de Vygotsky y la autopoiesis de Maturana y Varela.</p>
+                    <a href="#">Ver más &gt;&gt;</a>
+                </div>
+            </article>
+            <article class="articulo-card">
+                <div class="articulo-img">
+                    <span class="articulo-img-placeholder">Imagen</span>
+                </div>
+                <div class="articulo-content">
+                    <p>El acceso a la información como derecho humano: análisis del impacto de la inactividad bibliotecaria en la formación profesional de estudiantes universitarios.</p>
+                    <a href="#">Ver más &gt;&gt;</a>
+                </div>
+            </article>
+            <article class="articulo-card">
+                <div class="articulo-img">
+                    <span class="articulo-img-placeholder">Imagen</span>
+                </div>
+                <div class="articulo-content">
+                    <p>Voces de la comunidad universitaria: testimonios de docentes y estudiantes sobre las limitaciones de acceso a recursos bibliográficos en el núcleo Táchira.</p>
+                    <a href="#">Ver más &gt;&gt;</a>
+                </div>
+            </article>
+        </div>
+    </div>
+</section>
+
+<!-- HORARIO | MENU | REDES -->
+<section class="info-cols" id="visitanos">
+    <div class="container grid3">
+        <div class="col">
+            <h3>Horario</h3>
+            <ul>
+                <li><strong>Lunes a viernes</strong><br>8:00 am – 12:00 pm · 2:00 pm – 6:00 pm</li>
+                <li><strong>Sábados</strong><br>9:00 am – 1:00 pm · hemeroteca bajo solicitud</li>
+            </ul>
+            <p class="note">Operatividad sujeta a condiciones institucionales: confirma por nuestras redes antes de tu visita.</p>
+            <p class="addr">Biblioteca Luis Beltrán Prieto Figueroa, ULA Núcleo Táchira, San Cristóbal – Venezuela.</p>
+        </div>
+        <div class="col">
+            <h3>Menú</h3>
+            <ul class="menu-list">
+                <li><a href="#inicio">Inicio</a></li>
+                <li><a href="#visitanos">Visítanos</a></li>
+                <li><a href="#servicios">Servicios</a></li>
+                <li><a href="#testimonios">Testimonios</a></li>
+                <li><a href="#actua">Actúa</a></li>
+                <li><a href="#nosotros">Nosotros</a></li>
+                <li><a href="#articulos">Artículos</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Redes Sociales</h3>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span>@bitacora.academica</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@BitacoraULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1 .3-1.5 1.7-1.5H17V2.2C16.4 2.1 15 2 13.6 2 10.6 2 9 3.7 9 7v3H6v4h3v8h4z"/></svg><span>/BitacoraAcademicaULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg><span>Bitácora Académica ULA</span></a>
+            <a class="red-row" href="mailto:bitacora.academica@ula.ve"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>bitacora.academica@ula.ve</span></a>
+        </div>
+    </div>
+</section>
+
+<footer class="bar">
+    <strong>Bitácora Académica</strong> — Investigación: "El acceso a la biblioteca universitaria como derecho humano para el enriquecimiento del saber histórico cultural en el Núcleo Dr. Pedro Rincón Gutiérrez"<br>
+    Universidad de Los Andes · Núcleo Universitario "Dr. Pedro Rincón Gutiérrez" · Táchira – Venezuela · © 2026
+</footer>
+
+<script>
+    /* Slider */
+    const slides = document.querySelectorAll('.slide');
+    const dotsBox = document.getElementById('dots');
+    let current = 0, timer;
+    slides.forEach((_, i) => {
+        const d = document.createElement('button');
+        d.className = 'dot' + (i === 0 ? ' active' : '');
+        d.addEventListener('click', () => { go(i); resetTimer(); });
+        dotsBox.appendChild(d);
+    });
+    const dots = document.querySelectorAll('.dot');
+    function go(n){
+        slides[current].classList.remove('active');
+        dots[current].classList.remove('active');
+        current = (n + slides.length) % slides.length;
+        slides[current].classList.add('active');
+        dots[current].classList.add('active');
+    }
+    function resetTimer(){ clearInterval(timer); timer = setInterval(() => go(current + 1), 6500); }
+    document.getElementById('prevSlide').addEventListener('click', () => { go(current - 1); resetTimer(); });
+    document.getElementById('nextSlide').addEventListener('click', () => { go(current + 1); resetTimer(); });
+    resetTimer();
+
+    /* Botones Sí/No */
+    document.querySelectorAll('.btn-si-no button').forEach(btn => {
+        btn.addEventListener('click', function() {
+            document.querySelectorAll('.btn-si-no button').forEach(b => b.classList.remove('active'));
+            this.classList.add('active');
+            const respuesta = this.dataset.respuesta;
+            console.log('Respuesta registrada:', respuesta);
+            // Aquí puedes enviar la respuesta a un servidor o guardarla
+        });
+    });
+</script>
+</body>
+</html>
