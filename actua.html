@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Académica | Actúa</title>
+<style>
+    :root{
+        --ink:#0b2545;
+        --blue:#1d5fa7;
+        --blue-dark:#15497f;
+        --blue-light:#9cc4ea;
+        --blue-soft:#eaf1f9;
+        --paper:#f6f9fc;
+        --white:#ffffff;
+        --grey:#4f5b66;
+        --banner-bg:#c9d6e3;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+    ::selection{background:var(--blue);color:#fff;}
+    .container{max-width:1100px;margin:0 auto;padding:0 24px;}
+    .justify{text-align:justify;line-height:1.8;color:#2c3846;font-size:1.02rem;}
+
+    /* ============ 1. NAVBAR ============ */
+    header{position:sticky;top:0;z-index:100;background:rgba(246,249,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid #dce6f2;}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.05rem 0;flex-wrap:wrap;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-size:1.45rem;font-weight:bold;color:var(--ink);text-decoration:none;}
+    .logo svg{width:26px;height:26px;stroke:var(--blue);}
+    .nav-menu{display:flex;gap:1.9rem;list-style:none;flex-wrap:wrap;}
+    .nav-menu a{color:var(--ink);text-decoration:none;font-weight:bold;font-size:1rem;transition:color .25s;}
+    .nav-menu a:hover{color:var(--blue);}
+    .btn-registro{background:var(--blue);color:#fff;border:none;padding:.6rem 1.4rem;font-family:inherit;font-weight:bold;font-size:.95rem;border-radius:3px;cursor:pointer;box-shadow:0 3px 10px rgba(29,95,167,.35);transition:all .25s;}
+    .btn-registro:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* ============ 2. BANNER / SLIDER HEADER ============ */
+    .hero-banner{position:relative;height:min(45vh,380px);min-height:280px;background:var(--banner-bg);display:flex;align-items:center;justify-content:center;text-align:center;}
+    .hero-banner h1{font-size:clamp(2.5rem, 5vw, 4rem);font-weight:bold;letter-spacing:3px;color:var(--ink);text-transform:uppercase;}
+    .hero-arrow{position:absolute;top:50%;transform:translateY(-50%);background:none;border:none;font-size:3.5rem;color:var(--ink);cursor:pointer;padding:0 2rem;transition:transform .25s, color .25s;}
+    .hero-arrow:hover{color:var(--blue);transform:translateY(-50%) scale(1.15);}
+    .hero-arrow.left{left:20px;}
+    .hero-arrow.right{right:20px;}
+
+    /* ============ 3. INTRODUCCIÓN ============ */
+    .intro-sec{padding:3.5rem 0 2rem;}
+
+    /* ============ 4. BLOQUES DE ACCIÓN (CON ICONOS) ============ */
+    .rutas-lista{padding:2rem 0 3.5rem;}
+    .ruta-item{margin-bottom:2rem;background:var(--white);border:1px solid #dce6f2;border-radius:6px;overflow:hidden;box-shadow:0 4px 15px rgba(11,37,69,.04);}
+    .ruta-btn{width:100%;padding:1.8rem 2rem;display:flex;align-items:center;gap:2rem;background:none;border:none;cursor:pointer;text-align:left;font-family:inherit;transition:background .25s;}
+    .ruta-btn:hover{background:var(--blue-soft);}
+    .ruta-icon{width:70px;height:70px;flex-shrink:0;display:flex;align-items:center;justify-content:center;}
+    .ruta-icon svg{width:60px;height:60px;fill:var(--ink);}
+    .ruta-btn h2{font-size:clamp(1.5rem, 3vw, 2.2rem);font-weight:bold;color:var(--ink);flex-grow:1;}
+    .ruta-arrow-toggle{font-size:1.8rem;color:var(--blue);transition:transform .3s;}
+    .ruta-btn.active .ruta-arrow-toggle{transform:rotate(180deg);}
+    
+    .ruta-content{max-height:0;overflow:hidden;transition:max-height .4s ease-out;background:var(--white);padding:0 2rem;}
+    .ruta-content-inner{padding:1rem 0 2rem 5rem;}
+    .ruta-content p{margin-bottom:1rem;color:#3d4a58;font-size:1.02rem;}
+    .ruta-content ul{list-style:none;margin-bottom:1.5rem;}
+    .ruta-content li{position:relative;padding-left:1.5rem;margin-bottom:.8rem;color:#3d4a58;font-size:1rem;line-height:1.7;}
+    .ruta-content li::before{content:'•';position:absolute;left:0;color:var(--blue);font-weight:bold;font-size:1.3rem;}
+    .nota-capacitacion{background:var(--blue-soft);border-left:4px solid var(--blue);padding:1rem 1.2rem;font-size:.92rem;color:var(--ink);border-radius:0 4px 4px 0;}
+
+    /* ============ 5. CAJA FORMULARIO / SUGERENCIAS ============ */
+    .form-sec{padding:1.5rem 0 3.5rem;}
+    .form-container{background:#d5e0ea;padding:3rem 2.5rem;border-radius:4px;box-shadow:0 6px 20px rgba(11,37,69,.06);}
+    .form-container h2{font-size:1.8rem;text-align:center;color:var(--ink);margin-bottom:1rem;text-transform:uppercase;letter-spacing:1px;}
+    .form-container p{text-align:center;color:#3d4a58;margin-bottom:2rem;max-width:850px;margin-left:auto;margin-right:auto;font-size:1.02rem;}
+    .form-box{max-width:800px;margin:0 auto;}
+    .form-group{margin-bottom:1.2rem;}
+    .form-group label{display:block;font-weight:bold;margin-bottom:.4rem;color:var(--ink);font-size:.95rem;}
+    .form-group input, .form-group textarea, .form-group select{width:100%;padding:.8rem 1rem;border:1px solid #b2c2d1;border-radius:3px;font-family:inherit;font-size:1rem;background:#fafcff;}
+    .form-group input:focus, .form-group textarea:focus, .form-group select:focus{outline:2px solid var(--blue);}
+    .btn-submit{background:var(--blue);color:#fff;border:none;padding:.9rem 2rem;font-family:inherit;font-weight:bold;font-size:1.05rem;border-radius:3px;cursor:pointer;width:100%;box-shadow:0 4px 12px rgba(29,95,167,.3);transition:background .25s, transform .25s;}
+    .btn-submit:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* ============ 6. SECCIÓN REFLEXIÓN ============ */
+    .reflexion-sec{padding:3.5rem 0 4.5rem;}
+    .reflexion-sec h2{font-size:2.5rem;text-align:center;color:var(--ink);margin-bottom:2rem;position:relative;padding-bottom:1rem;}
+    .reflexion-sec h2::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:90px;height:3px;background:var(--blue);}
+    .reflexion-content{max-width:980px;margin:0 auto;}
+    .reflexion-content blockquote{font-size:1.1rem;line-height:1.95;color:#2c3846;font-style:italic;margin-bottom:1.5rem;text-align:justify;}
+    .reflexion-content p{font-size:1.05rem;line-height:1.9;color:#2c3846;text-align:justify;margin-bottom:1.5rem;}
+    .firma-autoras{text-align:right;font-weight:bold;color:var(--blue);font-size:1.05rem;margin-top:1rem;}
+
+    /* ============ 7. FOOTER / HORARIO | MENU | REDES ============ */
+    .info-cols{background:var(--white);border-top:1px solid #dce6f2;padding:4rem 0;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);}
+    .col{padding:0 2.6rem;text-align:center;}
+    .col + .col{border-left:2px solid var(--ink);}
+    .col h3{font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.6rem;color:var(--ink);}
+    .col ul{list-style:none;}
+    .col li{margin-bottom:1rem;color:var(--grey);}
+    .col li strong{color:var(--ink);}
+    .note{font-size:.85rem;color:#7d8b99;font-style:italic;margin-top:1rem;}
+    .addr{font-size:.9rem;color:var(--grey);margin-top:.8rem;}
+    .menu-list li{margin-bottom:.7rem;}
+    .menu-list a{color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .menu-list a:hover{color:var(--blue);}
+    .red-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1rem;color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .red-row:hover{color:var(--blue);}
+    .red-row svg{width:20px;height:20px;fill:var(--blue);flex-shrink:0;}
+
+    footer.bar{background:var(--ink);color:#b9d2ec;text-align:center;padding:1.6rem 24px;font-size:.85rem;line-height:1.8;}
+    footer.bar strong{color:var(--blue-light);}
+
+    /* ============ MODAL ============ */
+    .modal-overlay{position:fixed;inset:0;background:rgba(11,37,69,.65);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#fff;max-width:480px;width:100%;padding:2.2rem;position:relative;box-shadow:0 25px 60px rgba(11,37,69,.35);border-top:5px solid var(--blue);max-height:90vh;overflow:auto;}
+    .modal h3{font-size:1.6rem;margin-bottom:.4rem;color:var(--ink);}
+    .modal > p{font-size:.9rem;color:#7d8b99;margin-bottom:1.4rem;}
+    .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.6rem;cursor:pointer;color:#9aa8b5;}
+    .modal label{display:block;font-size:.85rem;font-weight:bold;margin:.9rem 0 .3rem;color:var(--ink);}
+    .modal input,.modal select,.modal textarea{width:100%;padding:.6rem;border:1px solid #b9c6d4;font-family:inherit;font-size:.95rem;background:#fafcff;}
+    .modal input:focus,.modal select:focus,.modal textarea:focus{outline:2px solid var(--blue);}
+    .modal .btn-cta-modal{background:var(--blue);color:#fff;border:none;padding:.8rem 1.8rem;font-family:inherit;font-weight:bold;font-size:1rem;border-radius:3px;cursor:pointer;width:100%;margin-top:1.4rem;transition:background .25s;}
+    .modal .btn-cta-modal:hover{background:var(--blue-dark);}
+    .modal-success{display:none;text-align:center;padding:2rem 0;}
+    .modal-success svg{width:60px;height:60px;stroke:var(--blue);fill:none;margin-bottom:1rem;}
+
+    @media (max-width:980px){
+        .grid3{grid-template-columns:1fr;}
+        .col{padding:0;}
+        .col + .col{border-left:none;border-top:2px solid var(--ink);margin-top:2.2rem;padding-top:2.2rem;}
+        .ruta-content-inner{padding-left:0;}
+    }
+    @media (max-width:640px){
+        .nav{justify-content:center;}
+        .nav-menu{gap:1rem;justify-content:center;font-size:.92rem;}
+        .ruta-btn{gap:1rem;padding:1.2rem 1rem;}
+        .ruta-icon{width:50px;height:50px;}
+        .ruta-icon svg{width:40px;height:40px;}
+    }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<header>
+    <div class="container nav">
+        <a class="logo" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            Bitácora Académica
+        </a>
+        <ul class="nav-menu">
+            <li><a href="index.html">inicio</a></li>
+            <li><a href="#visitanos">visítanos</a></li>
+            <li><a href="servicios.html">servicios</a></li>
+            <li><a href="testimonios.html">testimonios</a></li>
+            <li><a href="actua.html">actúa</a></li>
+            <li><a href="nosotros.html">Nosotros</a></li>
+        </ul>
+        <button class="btn-registro" data-open-modal>Regístrate</button>
+    </div>
+</header>
+
+<!-- ===================== SLIDER / BANNER PRINCIPAL ===================== -->
+<section class="hero-banner">
+    <button class="hero-arrow left" aria-label="Anterior">&#10094;</button>
+    <h1>ACTÚA</h1>
+    <button class="hero-arrow right" aria-label="Siguiente">&#10095;</button>
+</section>
+
+<!-- ===================== INTRODUCCIÓN ===================== -->
+<section class="intro-sec">
+    <div class="container">
+        <p class="justify">
+            La recuperación de la biblioteca "Luis Beltrán Prieto Figueroa" no depende solo de diagnosticar su deterioro, sino de la fuerza activa de la comunidad estudiantil. Cada propuesta, donación y espacio de difusión cuenta para transformar este espacio inactivo en el centro dinámico de conocimiento que la Universidad de los Andes merece. Sumar tu esfuerzo a esta causa es defender el derecho colectivo al acceso al saber y reactivar la vida académica de nuestro núcleo. A continuación, te mostramos las distintas rutas a través de las cuales puedes involucrarte de manera concreta:
+        </p>
+    </div>
+</section>
+
+<!-- ===================== LISTA DE RUTAS DE ACCIÓN ===================== -->
+<section class="rutas-lista">
+    <div class="container">
+        <!-- RUTA 1 -->
+        <div class="ruta-item">
+            <button class="ruta-btn">
+                <div class="ruta-icon">
+                    <svg viewBox="0 0 24 24">
+                        <!-- Manos sosteniendo grupo de personas -->
+                        <path d="M12 11a2.5 2.5 0 1 0 0-5 2.5 2.5 0 0 0 0 5zm-4.5-1a2 2 0 1 0 0-4 2 2 0 0 0 0 4zm9 0a2 2 0 1 0 0-4 2 2 0 0 0 0 4zM12 12c-2.3 0-4.5 1.2-5.5 3-.3.5 0 1.2.6 1.2h9.8c.6 0 .9-.7.6-1.2-1-1.8-3.2-3-5.5-3zm-6.5 1c-1.3 0-2.5.7-3.1 1.7-.2.4 0 .9.5.9h2.3c.7-1.3 2-2.2 3.5-2.5-.4-.1-.8-.1-1.2-.1zm13 0c-.4 0-.8 0-1.2.1 1.5.3 2.8 1.2 3.5 2.5h2.3c.5 0 .7-.5.5-.9-.6-1-1.8-1.7-3.1-1.7z"/>
+                        <path d="M2 18s3 3 10 3 10-3 10-3" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2>Servir para transformar</h2>
+                <span class="ruta-arrow-toggle">&#9660;</span>
+            </button>
+            <div class="ruta-content">
+                <div class="ruta-content-inner">
+                    <p>El servicio comunitario representa la oportunidad perfecta para vincular el conocimiento académico con la restauración de nuestro espacio académico. Los estudiantes pueden cumplir sus horas reglamentarias colaborando directamente en la biblioteca a través de:</p>
+                    <ul>
+                        <li>Apoyo en la clasificación, inventario y rescate del catálogo bibliográfico recuperable.</li>
+                        <li>Colaboración en proyectos de digitalización de documentos e historia local.</li>
+                        <li>Diseño de estrategias de difusión y gestión de actividades de sensibilización académica.</li>
+                    </ul>
+                    <div class="nota-capacitacion">
+                        <strong>Nota importante:</strong> Si deseas contribuir con tu servicio comunitario debes pasar primero por una capacitación dictada por el personal de la biblioteca para la limpieza y cuidado del material bibliográfico.
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- RUTA 2 -->
+        <div class="ruta-item">
+            <button class="ruta-btn">
+                <div class="ruta-icon">
+                    <svg viewBox="0 0 24 24">
+                        <!-- Manos sosteniendo figura humana -->
+                        <path d="M12 2a3 3 0 1 0 0 6 3 3 0 0 0 0-6zm0 7c-2.7 0-5 1.8-5 4v1h10v-1c0-2.2-2.3-4-5-4z"/>
+                        <path d="M4 15s1.5 5 8 5 8-5 8-5" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h2>Únete al cambio</h2>
+                <span class="ruta-arrow-toggle">&#9660;</span>
+            </button>
+            <div class="ruta-content">
+                <div class="ruta-content-inner">
+                    <p>La recuperación física del recinto requiere insumos, herramientas, recursos económicos y, sobre todo, liderazgo organizado. Puedes sumarte mediante:</p>
+                    <ul>
+                        <li>Coordinación con el consejo estudiantil para conformar un grupo de trabajo enfocado en planificar y ejecutar la logística de las jornadas de recuperación.</li>
+                        <li>Aportes económicos destinados a la compra de materiales de impermeabilización y pintura.</li>
+                        <li>Donación de insumos de limpieza (mascarillas, guantes, desinfectantes, bolsas de basura de alto impacto) para las jornadas de recuperación.</li>
+                        <li>Entrega de herramientas básicas de bricolaje y mantenimiento para restaurar mobiliario y estanterías.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+
+        <!-- RUTA 3 -->
+        <div class="ruta-item">
+            <button class="ruta-btn">
+                <div class="ruta-icon">
+                    <svg viewBox="0 0 24 24">
+                        <!-- Micrófono -->
+                        <path d="M12 14a3 3 0 0 0 3-3V6a3 3 0 0 0-6 0v5a3 3 0 0 0 3 3zm5-3a5 5 0 0 1-10 0H5a7 7 0 0 0 6 6.92V21h2v-3.08A7 7 0 0 0 19 11h-2z"/>
+                    </svg>
+                </div>
+                <h2>Tu voz, tu acción</h2>
+                <span class="ruta-arrow-toggle">&#9660;</span>
+            </button>
+            <div class="ruta-content">
+                <div class="ruta-content-inner">
+                    <p>La visibilidad es clave para movilizar a la institución y al entorno local. La transformación también empieza cuando educamos y sensibilizamos a nuestro entorno:</p>
+                    <ul>
+                        <li>Creación y difusión de campañas en redes sociales para visibilizar el estado actual de la biblioteca.</li>
+                        <li>Organización de foros, conversatorios y actividades culturales en las áreas comunes del núcleo para debatir sobre el derecho a la información.</li>
+                        <li>Recolección de firmas y peticiones respetuosas dirigidas a las autoridades para exigir respuestas administrativas concretas.</li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== FORMULARIO / SUGERENCIAS ===================== -->
+<section class="form-sec" id="formulario">
+    <div class="container">
+        <div class="form-container">
+            <h2>Formulario / Sugerencias</h2>
+            <p><strong>Deja tu huella y comparte tu testimonio:</strong> Tu experiencia e historia dentro de la universidad importan. Si fuiste usuario de la biblioteca antes de su cierre, si tienes ideas específicas para su restauración o simplemente quieres dejar un mensaje de apoyo a la comunidad, queremos escucharte.</p>
+
+            <form class="form-box" id="formTestimonio">
+                <div class="form-group">
+                    <label for="nombre">Nombre y Apellido *</label>
+                    <input type="text" id="nombre" required placeholder="Ej.: María Andrea Pérez">
+                </div>
+                <div class="form-group">
+                    <label for="correo">Correo Electrónico *</label>
+                    <input type="email" id="correo" required placeholder="tucorreo@ula.ve">
+                </div>
+                <div class="form-group">
+                    <label for="aporte">¿De qué otra manera te gustaría contribuir?</label>
+                    <textarea id="aporte" rows="5" required placeholder="Escribe aquí tu testimonio, propuestas o ideas concretas para la recuperación de la biblioteca..."></textarea>
+                </div>
+                <button type="submit" class="btn-submit">Enviar mi sugerencia / testimonio</button>
+            </form>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== SECCIÓN REFLEXIÓN ===================== -->
+<section class="reflexion-sec">
+    <div class="container">
+        <h2>Reflexión</h2>
+        <div class="reflexion-content">
+            <blockquote>
+                “Aunque las nuevas tecnologías y la digitalización han transformado la forma en que accedemos a la información, ningún entorno virtual puede reemplazar la esencia de un espacio físico diseñado para el encuentro, la cultura y el aprendizaje compartido. Una biblioteca es mucho más que un depósito de libros; es un refugio del pensamiento crítico, un guardián de nuestra identidad e historia, y un símbolo vivo de nuestro sentido de pertenencia con la universidad.”
+            </blockquote>
+            <p>
+                Recuperar la biblioteca "Luis Beltrán Prieto Figueroa" es devolverle a la comunidad universitaria un lugar donde construir futuro: un espacio idóneo para el estudio individual, el debate académico, el surgimiento de proyectos colectivos y la realización de actividades culturales que enriquezcan la vida estudiantil. Rescatarla no es solo restaurar paredes y estantes, es abrir nuevamente la puerta a infinitas oportunidades de crecimiento para las generaciones presentes y futuras.
+            </p>
+            <div class="firma-autoras">
+                — Jocelyne Sarmiento y Valeria Gamboa (2026)
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== HORARIO | MENU | REDES ===================== -->
+<section class="info-cols" id="visitanos">
+    <div class="container grid3">
+        <div class="col">
+            <h3>Horario</h3>
+            <ul>
+                <li><strong>Lunes a viernes</strong><br>8:00 am – 12:00 pm · 2:00 pm – 6:00 pm</li>
+                <li><strong>Sábados</strong><br>9:00 am – 1:00 pm · hemeroteca bajo solicitud</li>
+            </ul>
+            <p class="note">Operatividad sujeta a condiciones institucionales: confirma por nuestras redes antes de tu visita.</p>
+            <p class="addr">Biblioteca Luis Beltrán Prieto Figueroa, ULA Núcleo Táchira, San Cristóbal – Venezuela.</p>
+        </div>
+        <div class="col">
+            <h3>Menú</h3>
+            <ul class="menu-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="#visitanos">Visítanos</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="actua.html">Actúa</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Redes Sociales</h3>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span>@bitacora.academica</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@BitacoraULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1 .3-1.5 1.7-1.5H17V2.2C16.4 2.1 15 2 13.6 2 10.6 2 9 3.7 9 7v3H6v4h3v8h4z"/></svg><span>/BitacoraAcademicaULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg><span>Bitácora Académica ULA</span></a>
+            <a class="red-row" href="mailto:bitacora.academica@ula.ve"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>bitacora.academica@ula.ve</span></a>
+        </div>
+    </div>
+</section>
+
+<footer class="bar">
+    <strong>Bitácora Académica</strong> — Investigación: "El acceso a la biblioteca universitaria como derecho humano para el enriquecimiento del saber histórico cultural en el Núcleo Dr. Pedro Rincón Gutiérrez"<br>
+    Universidad de Los Andes · Núcleo Universitario "Dr. Pedro Rincón Gutiérrez" · Táchira – Venezuela · © 2026
+</footer>
+
+<!-- ===================== MODAL REGISTRO ===================== -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <button class="modal-close" data-close-modal aria-label="Cerrar">&times;</button>
+        <form id="formHuella">
+            <h3>Deja tu huella</h3>
+            <p>Regístrate para participar en el foro, las entrevistas o el voluntariado de la bitácora.</p>
+            <label for="modal-nombre">Nombre y apellido *</label>
+            <input id="modal-nombre" type="text" required placeholder="Ej.: María José Andrade">
+            <label for="modal-correo">Correo electrónico *</label>
+            <input id="modal-correo" type="email" required placeholder="tucorreo@ula.ve">
+            <label for="comunidad">Soy...</label>
+            <select id="comunidad">
+                <option>Estudiante</option><option>Docente</option><option>Egresado/a</option><option>Representante</option><option>Otro</option>
+            </select>
+            <label for="mensaje">¿Qué huella quieres dejar? (opcional)</label>
+            <textarea id="mensaje" rows="3" placeholder="Cuéntanos tu experiencia con la biblioteca..."></textarea>
+            <button type="submit" class="btn-cta-modal">Enviar mi huella</button>
+        </form>
+        <div class="modal-success" id="modalSuccess">
+            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+            <h3>¡Gracias por dejar tu huella!</h3>
+            <p>Tu voz suma para que la biblioteca vuelva a ser el corazón académico y cultural del núcleo.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ---------- Acordeón de Rutas ---------- */
+    document.querySelectorAll('.ruta-btn').forEach(button => {
+        button.addEventListener('click', () => {
+            const content = button.nextElementSibling;
+            const isActive = button.classList.contains('active');
+            
+            // Cerrar todos los demás
+            document.querySelectorAll('.ruta-btn').forEach(b => b.classList.remove('active'));
+            document.querySelectorAll('.ruta-content').forEach(c => c.style.maxHeight = null);
+            
+            // Abrir el seleccionado si no estaba activo
+            if (!isActive) {
+                button.classList.add('active');
+                content.style.maxHeight = content.scrollHeight + "px";
+            }
+        });
+    });
+
+    /* ---------- Modal Registro ---------- */
+    const modal = document.getElementById('modal');
+    document.querySelectorAll('[data-open-modal]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); modal.classList.add('open'); }));
+    document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => modal.classList.remove('open')));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+    document.getElementById('formHuella').addEventListener('submit', e => {
+        e.preventDefault();
+        e.target.style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'block';
+    });
+
+    /* ---------- Formulario Sugerencias ---------- */
+    document.getElementById('formTestimonio').addEventListener('submit', function(e) {
+        e.preventDefault();
+        alert('¡Gracias por enviar tu sugerencia y testimonio para la recuperación de la biblioteca!');
+        this.reset();
+    });
+</script>
+</body>
+</html>
