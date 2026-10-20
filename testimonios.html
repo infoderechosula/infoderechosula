@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Bitácora Académica | Testimonios</title>
+<style>
+    :root{
+        --ink:#0b2545;        /* azul profundo (textos y títulos) */
+        --blue:#1d5fa7;       /* azul institucional (acentos, botones) */
+        --blue-dark:#15497f;    /* azul oscuro (hover) */
+        --blue-light:#9cc4ea;   /* azul claro (detalles sobre fondo oscuro) */
+        --blue-soft:#eaf1f9;    /* azul muy suave (fondos) */
+        --paper:#f6f9fc;        /* fondo general azulado */
+        --white:#ffffff;
+        --grey:#4f5b66;
+    }
+    *{margin:0;padding:0;box-sizing:border-box;}
+    html{scroll-behavior:smooth;}
+    body{font-family:'Georgia',serif;background:var(--paper);color:var(--ink);line-height:1.6;}
+    ::selection{background:var(--blue);color:#fff;}
+    section{scroll-margin-top:95px;}
+    .container{max-width:1200px;margin:0 auto;padding:0 24px;}
+    .justify{text-align:justify;line-height:1.9;color:#3d4a58;}
+    .kicker{display:block;letter-spacing:3px;text-transform:uppercase;font-size:.82rem;font-weight:bold;color:var(--blue);margin-bottom:.8rem;}
+
+    /* ============ 1. NAVBAR ============ */
+    header{position:sticky;top:0;z-index:100;background:rgba(246,249,252,.96);backdrop-filter:blur(6px);border-bottom:1px solid #dce6f2;}
+    .nav{display:flex;align-items:center;justify-content:space-between;gap:1.5rem;padding:1.05rem 0;flex-wrap:wrap;}
+    .logo{display:flex;align-items:center;gap:.6rem;font-size:1.45rem;font-weight:bold;color:var(--ink);text-decoration:none;}
+    .logo svg{width:26px;height:26px;stroke:var(--blue);}
+    .nav-menu{display:flex;gap:1.9rem;list-style:none;flex-wrap:wrap;}
+    .nav-menu a{color:var(--ink);text-decoration:none;font-weight:bold;font-size:1rem;transition:color .25s;}
+    .nav-menu a:hover{color:var(--blue);}
+    .btn-registro{background:var(--blue);color:#fff;border:none;padding:.6rem 1.4rem;font-family:inherit;font-weight:bold;font-size:.95rem;border-radius:3px;cursor:pointer;box-shadow:0 3px 10px rgba(29,95,167,.35);transition:all .25s;}
+    .btn-registro:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* ============ 2. BANNER / SLIDER HEADER ============ */
+    .hero-banner{position:relative;height:min(50vh,420px);min-height:300px;background:var(--ink);display:flex;align-items:center;justify-content:center;text-align:center;color:#fff;background-image:linear-gradient(rgba(11,37,69,.5),rgba(11,37,69,.75)),url('images/slider-testimonios.jpg');background-size:cover;background-position:center;}
+    .hero-banner h1{font-size:clamp(2.5rem,5vw,4rem);text-transform:uppercase;letter-spacing:3px;text-shadow:2px 2px 6px rgba(11,37,69,.6);}
+    .slider-arrow{position:absolute;top:50%;transform:translateY(-50%);z-index:5;width:52px;height:52px;border-radius:50%;border:none;background:rgba(11,37,69,.45);color:#fff;font-size:2rem;line-height:1;cursor:pointer;transition:background .25s;}
+    .slider-arrow:hover{background:var(--blue);}
+    .arrow-left{left:20px;} .arrow-right{right:20px;}
+
+    /* ============ 3. SECCIÓN TESTIMONIOS ============ */
+    .testimonios-sec{padding:4.5rem 0 3rem;}
+    .section-title{font-size:2.3rem;text-align:center;margin-bottom:3.5rem;position:relative;padding-bottom:1rem;color:var(--ink);}
+    .section-title::after{content:'';position:absolute;bottom:0;left:50%;transform:translateX(-50%);width:100px;height:3px;background:var(--blue);}
+
+    .testimonio-row{display:grid;grid-template-columns:1fr 1fr;gap:3.5rem;align-items:center;margin-bottom:4rem;}
+    .testimonio-row.reverse{grid-template-columns:1fr 1fr;}
+    
+    .testimonio-info h2{font-size:2.2rem;color:var(--ink);margin-bottom:.2rem;}
+    .testimonio-info .rol{font-style:italic;color:var(--blue);font-size:1.1rem;margin-bottom:1.2rem;display:block;}
+    
+    .img-placeholder-box{width:100%;aspect-ratio:4/3;background:linear-gradient(135deg,var(--blue-soft) 0%,#dce6f2 100%);border:1px solid var(--blue-light);display:flex;align-items:center;justify-content:center;color:var(--blue);font-weight:bold;font-size:1.5rem;letter-spacing:2px;box-shadow:0 10px 25px rgba(11,37,69,.08);border-radius:4px;overflow:hidden;}
+    .img-placeholder-box img{width:100%;height:100%;object-fit:cover;}
+
+    /* ============ 4. BANNER FRASE DE ACCIÓN ============ */
+    .cta-banner-sec{padding:1.5rem 0 4.5rem;}
+    .cta-banner{background:var(--blue-soft);border:1px solid #dce6f2;padding:2.2rem 3rem;border-radius:4px;display:flex;align-items:center;justify-content:space-between;gap:2rem;flex-wrap:wrap;box-shadow:0 6px 20px rgba(11,37,69,.05);}
+    .cta-banner h3{font-size:1.45rem;color:var(--ink);text-transform:uppercase;letter-spacing:1px;}
+    .btn-sumate{background:var(--blue);color:#fff;border:none;padding:.8rem 2rem;font-family:inherit;font-weight:bold;font-size:1rem;border-radius:3px;cursor:pointer;text-decoration:none;box-shadow:0 4px 12px rgba(29,95,167,.3);transition:all .25s;}
+    .btn-sumate:hover{background:var(--blue-dark);transform:translateY(-2px);}
+
+    /* ============ 5. HORARIO | MENU | REDES ============ */
+    .info-cols{background:var(--white);border-top:1px solid #dce6f2;padding:4rem 0;}
+    .grid3{display:grid;grid-template-columns:repeat(3,1fr);}
+    .col{padding:0 2.6rem;text-align:center;}
+    .col + .col{border-left:2px solid var(--ink);}
+    .col h3{font-size:2rem;text-transform:uppercase;letter-spacing:2px;margin-bottom:1.6rem;color:var(--ink);}
+    .col ul{list-style:none;}
+    .col li{margin-bottom:1rem;color:var(--grey);}
+    .col li strong{color:var(--ink);}
+    .note{font-size:.85rem;color:#7d8b99;font-style:italic;margin-top:1rem;}
+    .addr{font-size:.9rem;color:var(--grey);margin-top:.8rem;}
+    .menu-list li{margin-bottom:.7rem;}
+    .menu-list a{color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .menu-list a:hover{color:var(--blue);}
+    .red-row{display:flex;align-items:center;justify-content:center;gap:.7rem;margin-bottom:1rem;color:var(--grey);text-decoration:none;font-weight:bold;transition:color .25s;}
+    .red-row:hover{color:var(--blue);}
+    .red-row svg{width:20px;height:20px;fill:var(--blue);flex-shrink:0;}
+
+    footer.bar{background:var(--ink);color:#b9d2ec;text-align:center;padding:1.6rem 24px;font-size:.85rem;line-height:1.8;}
+    footer.bar strong{color:var(--blue-light);}
+
+    /* ============ MODAL REGÍSTRATE ============ */
+    .modal-overlay{position:fixed;inset:0;background:rgba(11,37,69,.65);display:none;align-items:center;justify-content:center;z-index:200;padding:20px;}
+    .modal-overlay.open{display:flex;}
+    .modal{background:#fff;max-width:480px;width:100%;padding:2.2rem;position:relative;box-shadow:0 25px 60px rgba(11,37,69,.35);border-top:5px solid var(--blue);max-height:90vh;overflow:auto;}
+    .modal h3{font-size:1.6rem;margin-bottom:.4rem;color:var(--ink);}
+    .modal > p{font-size:.9rem;color:#7d8b99;margin-bottom:1.4rem;}
+    .modal-close{position:absolute;top:12px;right:16px;background:none;border:none;font-size:1.6rem;cursor:pointer;color:#9aa8b5;}
+    .modal label{display:block;font-size:.85rem;font-weight:bold;margin:.9rem 0 .3rem;color:var(--ink);}
+    .modal input,.modal select,.modal textarea{width:100%;padding:.6rem;border:1px solid #b9c6d4;font-family:inherit;font-size:.95rem;background:#fafcff;}
+    .modal input:focus,.modal select:focus,.modal textarea:focus{outline:2px solid var(--blue);}
+    .modal .btn-cta{width:100%;margin-top:1.4rem;background:var(--blue);color:#fff;border:none;padding:.8rem;font-weight:bold;border-radius:3px;cursor:pointer;}
+    .modal-success{display:none;text-align:center;padding:2rem 0;}
+    .modal-success svg{width:60px;height:60px;stroke:var(--blue);fill:none;margin-bottom:1rem;}
+
+    @media (max-width:980px){
+        .testimonio-row, .testimonio-row.reverse{grid-template-columns:1fr;gap:2rem;}
+        .testimonio-row.reverse .img-placeholder-box{order:1;}
+        .testimonio-row.reverse .testimonio-info{order:2;}
+        .grid3{grid-template-columns:1fr;}
+        .col{padding:0;}
+        .col + .col{border-left:none;border-top:2px solid var(--ink);margin-top:2.2rem;padding-top:2.2rem;}
+    }
+    @media (max-width:640px){
+        .nav{justify-content:center;}
+        .nav-menu{gap:1rem;justify-content:center;font-size:.92rem;}
+        .hero-banner{height:40vh;}
+        .cta-banner{flex-direction:column;text-align:center;}
+    }
+</style>
+</head>
+<body>
+
+<!-- ===================== NAVBAR ===================== -->
+<header>
+    <div class="container nav">
+        <a class="logo" href="index.html">
+            <svg viewBox="0 0 24 24" fill="none" stroke-width="1.8"><path d="M12 6c-2-1.5-4.5-2-8-2v14c3.5 0 6 .5 8 2 2-1.5 4.5-2 8-2V4c-3.5 0-6 .5-8 2z"/><path d="M12 6v14"/></svg>
+            Bitácora Académica
+        </a>
+        <ul class="nav-menu">
+            <li><a href="index.html">inicio</a></li>
+            <li><a href="problematica.html">visítanos</a></li>
+            <li><a href="servicios.html">servicios</a></li>
+            <li><a href="testimonios.html">testimonios</a></li>
+            <li><a href="actua.html">actúa</a></li>
+            <li><a href="nosotros.html">nosotros</a></li>
+        </ul>
+        <button class="btn-registro" data-open-modal>Regístrate</button>
+    </div>
+</header>
+
+<!-- ===================== BANNER HEADER ===================== -->
+<section class="hero-banner" aria-label="Banner Testimonios">
+    <button class="slider-arrow arrow-left" aria-label="Anterior">&#10094;</button>
+    <h1>Testimonios</h1>
+    <button class="slider-arrow arrow-right" aria-label="Siguiente">&#10095;</button>
+</section>
+
+<!-- ===================== SECCIÓN TESTIMONIOS ===================== -->
+<section class="testimonios-sec">
+    <div class="container">
+        <h2 class="section-title">Tu voz también cuenta</h2>
+
+        <!-- TESTIMONIO 1: Georgina (Texto izquierda - Imagen derecha) -->
+        <div class="testimonio-row">
+            <div class="testimonio-info">
+                <h2>Georgina</h2>
+                <span class="rol">Estudiante</span>
+                <p class="justify">
+                    Para los estudiantes de Comunicación Social y de todo el núcleo, la biblioteca era un espacio insustituible. No solo acudíamos en busca de libros de texto o consultar la hemeroteca para nuestros proyectos de investigación, sino que constituía un lugar de encuentro académico silencioso y seguro. Su cierre progresivo nos ha obligado a depender exclusivamente de recursos digitales que no todos pueden costear, además de privarnos de la experiencia formativa de trabajar en un espacio universitario adecuado.
+                </p>
+            </div>
+            <div class="img-placeholder-box">
+                <!-- <img src="images/georgina.jpg" alt="Georgina - Estudiante"> -->
+                <span>IMAGEM</span>
+            </div>
+        </div>
+
+        <!-- TESTIMONIO 2: José (Imagen izquierda - Texto derecha) -->
+        <div class="testimonio-row reverse">
+            <div class="img-placeholder-box">
+                <!-- <img src="images/jose.jpg" alt="José - Profesor de la universidad"> -->
+                <span>IMAGEM</span>
+            </div>
+            <div class="testimonio-info">
+                <h2>José</h2>
+                <span class="rol">Profesor de la universidad</span>
+                <p class="justify">
+                    Como docente, presenciar el deterioro de la biblioteca Luis Beltrán Prieto Figueroa es presenciar una grieta en la calidad académica del núcleo. Un profesor no solo enseña en el aula; orienta hacia la lectura crítica y la consulta documental directa. Sin un recinto bibliotecario activo, la práctica pedagógica se ve limitada y la formación de los estudiantes pierde la profundidad investigativa que siempre caracterizó a la Universidad de Los Andes.
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== BANNER FRASE DE ACCIÓN ===================== -->
+<section class="cta-banner-sec">
+    <div class="container">
+        <div class="cta-banner">
+            <h3>FRASE DE ACCIÓN... Es momento de actuar</h3>
+            <a href="actua.html" class="btn-sumate">Súmate &gt;&gt;</a>
+        </div>
+    </div>
+</section>
+
+<!-- ===================== HORARIO | MENU | REDES ===================== -->
+<section class="info-cols" id="visitanos">
+    <div class="container grid3">
+        <div class="col">
+            <h3>Horario</h3>
+            <ul>
+                <li><strong>Lunes a viernes</strong><br>8:00 am – 12:00 pm · 2:00 pm – 6:00 pm</li>
+                <li><strong>Sábados</strong><br>9:00 am – 1:00 pm · hemeroteca bajo solicitud</li>
+            </ul>
+            <p class="note">Operatividad sujeta a condiciones institucionales: confirma por nuestras redes antes de tu visita.</p>
+            <p class="addr">Biblioteca Luis Beltrán Prieto Figueroa, ULA Núcleo Táchira, San Cristóbal – Venezuela.</p>
+        </div>
+        <div class="col">
+            <h3>Menú</h3>
+            <ul class="menu-list">
+                <li><a href="index.html">Inicio</a></li>
+                <li><a href="problematica.html">Visítanos</a></li>
+                <li><a href="servicios.html">Servicios</a></li>
+                <li><a href="testimonios.html">Testimonios</a></li>
+                <li><a href="actua.html">Actúa</a></li>
+                <li><a href="nosotros.html">Nosotros</a></li>
+                <li><a href="#" data-open-modal>Regístrate</a></li>
+            </ul>
+        </div>
+        <div class="col">
+            <h3>Redes Sociales</h3>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M12 2.2c3.2 0 3.6 0 4.9.1 3.3.1 4.8 1.7 4.9 4.9.1 1.3.1 1.6.1 4.8s0 3.6-.1 4.8c-.1 3.2-1.7 4.8-4.9 4.9-1.3.1-1.6.1-4.9.1s-3.6 0-4.8-.1c-3.3-.1-4.8-1.7-4.9-4.9-.1-1.3-.1-1.6-.1-4.8s0-3.6.1-4.8C2.4 4 4 2.4 7.2 2.3c1.2-.1 1.6-.1 4.8-.1zM12 7a5 5 0 1 0 0 10 5 5 0 0 0 0-10zm0 8.2a3.2 3.2 0 1 1 0-6.4 3.2 3.2 0 0 1 0 6.4zm5.2-9.4a1.2 1.2 0 1 0 0 2.4 1.2 1.2 0 0 0 0-2.4z"/></svg><span>@bitacora.academica</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M17.8 3h3l-6.6 7.6L22 21h-6.1l-4.8-6.3L5.6 21h-3l7.1-8.1L2 3h6.3l4.3 5.7L17.8 3zm-1.1 16.2h1.7L7.4 4.7H5.6l11.1 14.5z"/></svg><span>@BitacoraULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M13 22v-8h3l.5-4H13V7.5c0-1 .3-1.5 1.7-1.5H17V2.2C16.4 2.1 15 2 13.6 2 10.6 2 9 3.7 9 7v3H6v4h3v8h4z"/></svg><span>/BitacoraAcademicaULA</span></a>
+            <a class="red-row" href="#"><svg viewBox="0 0 24 24"><path d="M21.6 7.2a2.8 2.8 0 0 0-2-2C17.9 4.8 12 4.8 12 4.8s-5.9 0-7.6.4a2.8 2.8 0 0 0-2 2A29 29 0 0 0 2 12a29 29 0 0 0 .4 4.8 2.8 2.8 0 0 0 2 2c1.7.4 7.6.4 7.6.4s5.9 0 7.6-.4a2.8 2.8 0 0 0 2-2A29 29 0 0 0 22 12a29 29 0 0 0-.4-4.8zM10 15.2V8.8L15.5 12 10 15.2z"/></svg><span>Bitácora Académica ULA</span></a>
+            <a class="red-row" href="mailto:bitacora.academica@ula.ve"><svg viewBox="0 0 24 24"><path d="M20 4H4a2 2 0 0 0-2 2v12a2 2 0 0 0 2 2h16a2 2 0 0 0 2-2V6a2 2 0 0 0-2-2zm0 4-8 5-8-5V6l8 5 8-5v2z"/></svg><span>bitacora.academica@ula.ve</span></a>
+        </div>
+    </div>
+</section>
+
+<footer class="bar">
+    <strong>Bitácora Académica</strong> — Investigación: "El acceso a la biblioteca universitaria como derecho humano para el enriquecimiento del saber histórico cultural en el Núcleo Dr. Pedro Rincón Gutiérrez"<br>
+    Universidad de Los Andes · Núcleo Universitario "Dr. Pedro Rincón Gutiérrez" · Táchira – Venezuela · © 2026
+</footer>
+
+<!-- ===================== MODAL REGÍSTRATE ===================== -->
+<div class="modal-overlay" id="modal">
+    <div class="modal">
+        <button class="modal-close" data-close-modal aria-label="Cerrar">&times;</button>
+        <form id="formHuella">
+            <h3>Deja tu huella</h3>
+            <p>Regístrate para participar en el foro, las entrevistas o el voluntariado de la bitácora.</p>
+            <label for="modal-nombre">Nombre y apellido *</label>
+            <input id="modal-nombre" type="text" required placeholder="Ej.: María José Andrade">
+            <label for="modal-correo">Correo electrónico *</label>
+            <input id="modal-correo" type="email" required placeholder="tucorreo@ula.ve">
+            <label for="comunidad">Soy...</label>
+            <select id="comunidad">
+                <option>Estudiante</option><option>Docente</option><option>Egresado/a</option><option>Representante</option><option>Otro</option>
+            </select>
+            <label for="mensaje">¿Qué huella quieres dejar? (opcional)</label>
+            <textarea id="mensaje" rows="3" placeholder="Cuéntanos tu experiencia con la biblioteca..."></textarea>
+            <button type="submit" class="btn-cta">Enviar mi huella</button>
+        </form>
+        <div class="modal-success" id="modalSuccess">
+            <svg viewBox="0 0 24 24" stroke-width="2"><circle cx="12" cy="12" r="10"/><path d="m8 12 3 3 5-6"/></svg>
+            <h3>¡Gracias por dejar tu huella!</h3>
+            <p>Tu voz suma para que la biblioteca vuelva a ser el corazón académico y cultural del núcleo.</p>
+        </div>
+    </div>
+</div>
+
+<script>
+    /* ---------- Modal Regístrate ---------- */
+    const modal = document.getElementById('modal');
+    document.querySelectorAll('[data-open-modal]').forEach(b => b.addEventListener('click', e => { e.preventDefault(); modal.classList.add('open'); }));
+    document.querySelectorAll('[data-close-modal]').forEach(b => b.addEventListener('click', () => modal.classList.remove('open')));
+    modal.addEventListener('click', e => { if (e.target === modal) modal.classList.remove('open'); });
+    document.getElementById('formHuella').addEventListener('submit', e => {
+        e.preventDefault();
+        e.target.style.display = 'none';
+        document.getElementById('modalSuccess').style.display = 'block';
+    });
+</script>
+</body>
+</html>
